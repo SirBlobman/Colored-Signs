@@ -1,0 +1,24 @@
+# Configuration Options for Colored Signs
+# Colored Signs made by SirBlobman
+# Made for version ${bukkit.plugin.version}
+options:
+  # What character should be used for color codes?
+  #
+  # Default: '&'
+  color character: '&'
+
+  # Should permissions be used instead of allowing everyone to color their signs?
+  #
+  # Default: false
+  use permissions: false
+
+  # Should a message be broadcasted when Colored Signs is enabled on the server?
+  #
+  # Default: true
+  broadcast startup: true
+
+  # Only enable this option if you want to see extra debug messages.
+  # SirBlobman may ask you to enable this option if you need help or have an issue.
+  #
+  # Default: false
+  debug: false
