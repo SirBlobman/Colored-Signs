@@ -5,34 +5,38 @@
 	
 	<groupId>com.SirBlobman</groupId>
 	<artifactId>ColoredSigns</artifactId>
-	<version>3.0</version>
+	<version>3.0.0-SNAPSHOT</version>
 	
 	<name>Colored Signs</name>
 	<description>A plugin that adds color and formatting codes to signs.</description>
 	
 	<properties>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		
-		<bukkit.version>1.8-R0.1-SNAPSHOT</bukkit.version>
+		<bukkit.version>1.7.10-R0.1-SNAPSHOT</bukkit.version>
+
 		<bukkit.plugin.name>${project.artifactId}</bukkit.plugin.name>
 		<bukkit.plugin.prefix>${project.name}</bukkit.plugin.prefix>
 		<bukkit.plugin.description>${project.description}</bukkit.plugin.description>
+
 		<bukkit.plugin.main>com.SirBlobman.colored.signs.ColoredSigns</bukkit.plugin.main>
-		<bukkit.plugin.version>${project.version}</bukkit.plugin.version>
+		<bukkit.plugin.version>3.0.0</bukkit.plugin.version>
 		<bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
 	</properties>
 	
 	<repositories>
-		<!-- Spigot and Bukkit -->
+		<!-- CodeMC NMS Repository -->
 		<repository>
-			<id>hub.spigotmc.org</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+			<id>codemc-nms</id>
+			<url>https://repo.codemc.io/repository/nms/</url>
 		</repository>
 	</repositories>
 	
 	<dependencies>
+		<!-- Bukkit API -->
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
@@ -42,6 +46,7 @@
 	</dependencies>
 	
 	<build>
+		<finalName>${bukkit.plugin.name}-${bukkit.plugin.version}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
