@@ -1,0 +1,79 @@
+[SIZE=5][B]Supported Spigot Versions:[/B][/SIZE]
+1.7.10, 1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.1
+
+[SIZE=5][COLOR=#FF0000][B]Description:[/B][/COLOR][/SIZE]
+Colored Signs is a simple plugin that allows you to use chat color codes on signs
+
+[SIZE=5][COLOR=#FF0000][B]Screenshots and Videos:[/B][/COLOR][/SIZE]
+[IMG]https://i.gyazo.com/c78780049223f93cb4ee37f6ccb9075e.png[/IMG]
+[IMG]https://i.gyazo.com/2ba5f6323a6370cf672227c2a4789321.png[/IMG]
+[MEDIA="YouTube"]6pL8VuQEMSU[/MEDIA]
+
+[SIZE=5][COLOR=#FF0000][B]Default Config: [/B](config.yml)[/COLOR][/SIZE]
+[CODE=YAML]
+# Configuration Options for Colored Signs
+# Colored Signs made by SirBlobman
+# Made for version ${bukkit.plugin.version}
+options:
+  # What character should be used for color codes?
+  #
+  # Default: '&'
+  color character: '&'
+
+  # Should permissions be used instead of allowing everyone to color their signs?
+  #
+  # Default: false
+  use permissions: false
+
+  # Should a message be broadcasted when Colored Signs is enabled on the server?
+  #
+  # Default: true
+  broadcast startup: true
+
+  # Only enable this option if you want to see extra debug messages.
+  # SirBlobman may ask you to enable this option if you need help or have an issue.
+  #
+  # Default: false
+  debug: false
+[/CODE]
+
+[SIZE=5][COLOR=#FF0000][B]Permissions:[/B][/COLOR][/SIZE]
+You must set 'options.use permissions' to true in the config.yml to use these permissions.
+[SPOILER="Click here to view permissions"]
+[B]All Colors and Formatting:[/B] signs.all
+[B]All Colors:[/B] signs.color.all
+[B]All Formatting:[/B] signs.format.all
+
+[B]Colors:[/B]
+[COLOR=#000000][B]Black:[/B][/COLOR] signs.color.0
+[COLOR=#0000AA][B]Dark Blue:[/B][/COLOR] signs.color.1
+[COLOR=#00AA00][B]Dark Green:[/B][/COLOR] signs.color.2
+[COLOR=#00AAAA][B]Dark Aqua:[/B][/COLOR] signs.color.3
+[COLOR=#AA0000][B]Dark Red:[/B][/COLOR] signs.color.4
+[COLOR=#AA00AA][B]Dark Purple:[/B][/COLOR] signs.color.5
+[COLOR=#FFAA00][B]Gold:[/B][/COLOR] signs.color.6
+[COLOR=#AAAAAA][B]Gray[/B][/COLOR] signs.color.7
+[COLOR=#555555][B]Dark Gray[/B][/COLOR] signs.color.8
+[COLOR=#5555FF][B]Blue[/B][/COLOR] signs.color.9
+[COLOR=#55FF55][B]Green[/B][/COLOR] signs.color.a
+[COLOR=#55FFFF][B]Aqua[/B][/COLOR] signs.color.b
+[COLOR=#FF5555][B]Red[/B][/COLOR] signs.color.c
+[COLOR=#FF55FF][B]Purple[/B][/COLOR] signs.color.d
+[COLOR=#FFFF55][B]Yellow[/B][/COLOR] signs.color.e
+[COLOR=#FFFFFF][B]White[/B][/COLOR] signs.color.f
+
+[B]Formatting:[/B]
+Magic: signs.format.k
+[B]Bold: [/B] signs.format.l
+[S]Strikethrough:[/S] signs.format.m
+[U]Underline[/U] signs.format.n
+[I]Italic:[/I] signs.format.o
+Reset: signs.format.r
+[/SPOILER]
+
+[SIZE=5][B][COLOR=#FF0000]Help and Support:[/COLOR][/B][/SIZE]
+Click the image to join my discord for support. You can also join if you have feature requests or if you just want to chat with other users.
+[URL="https://discord.gg/XMg2agT"][IMG]https://discordapp.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png[/IMG][/URL]
+
+[SIZE=5][B][COLOR=#FF0000]Extra Information:[/COLOR][/B][/SIZE]
+Please do not use a review to leave bug reports or errors. I am not able to help you through a review. 
