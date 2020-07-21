@@ -34,6 +34,7 @@ permissions:
       signs.color.d: true
       signs.color.e: true
       signs.color.f: true
+      signs.color.hex: true
 
   signs.format.all:
     description: "Gives access to all sign formatting"

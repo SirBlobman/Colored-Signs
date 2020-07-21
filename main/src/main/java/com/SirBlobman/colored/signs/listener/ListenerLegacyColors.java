@@ -1,20 +1,22 @@
 package com.SirBlobman.colored.signs.listener;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.SirBlobman.colored.signs.ColoredSigns;
+
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class SignListener implements Listener {
+public class ListenerLegacyColors implements Listener {
     private final ColoredSigns plugin;
-    public SignListener(ColoredSigns plugin) {
+    public ListenerLegacyColors(ColoredSigns plugin) {
         this.plugin = plugin;
     }
 
@@ -36,10 +38,20 @@ public class SignListener implements Listener {
             debug("Line before codes: '" + line + "'.");
 
             String color = getFormattedSignString(player, line);
-            debug("Line after codes: '" + (color.replace("\u00A7", getConfig().getString("options.color character"))) + "'.");
+            String unColor = color.replace(ChatColor.COLOR_CHAR, getColorCharacter());
+            debug("Line after codes: '" + unColor + "'.");
 
             e.setLine(i, color);
         }
+    }
+    
+    private char getColorCharacter() {
+        FileConfiguration config = getConfig();
+        String characterString = config.getString("options.color character");
+        if(characterString == null) return '&';
+    
+        char[] charArray = characterString.toCharArray();
+        return charArray[0];
     }
 
     private String getFormattedSignString(Player player, String line) {

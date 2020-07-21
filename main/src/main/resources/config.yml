@@ -16,6 +16,13 @@ options:
   #
   # Default: true
   broadcast startup: true
+  
+  # Should hex color codes be enabled if your server is 1.16+?
+  # Hex Colors on signs are in the following format: <code>#<hex>
+  # Example: &#FF0000 is RGB 255, 0, 0 or full red
+  #
+  # Default: true
+  use hex colors: true
 
   # Only enable this option if you want to see extra debug messages.
   # SirBlobman may ask you to enable this option if you need help or have an issue.
