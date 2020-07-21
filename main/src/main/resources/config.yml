@@ -3,6 +3,10 @@
 # Made for version ${bukkit.plugin.version}
 options:
   # What character should be used for color codes?
+  # Legacy Colors are in the format <code><color>
+  # Valid colors are 0-9
+  # Valid formats are K-O and R
+  # Example: &2&lHello is "Hello" with dark green and bold
   #
   # Default: '&'
   color character: '&'

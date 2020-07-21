@@ -5,17 +5,22 @@
 Colored Signs is a simple plugin that allows you to use chat color codes on signs
 
 [SIZE=5][COLOR=#FF0000][B]Screenshots and Videos:[/B][/COLOR][/SIZE]
+[SPOILER="Click here to view"]
 [IMG]https://i.gyazo.com/c78780049223f93cb4ee37f6ccb9075e.png[/IMG]
 [IMG]https://i.gyazo.com/2ba5f6323a6370cf672227c2a4789321.png[/IMG]
 [MEDIA="YouTube"]6pL8VuQEMSU[/MEDIA]
+[/SPOILER]
 
 [SIZE=5][COLOR=#FF0000][B]Default Config: [/B](config.yml)[/COLOR][/SIZE]
 [CODE=YAML]
 # Configuration Options for Colored Signs
 # Colored Signs made by SirBlobman
-# Made for version ${bukkit.plugin.version}
 options:
   # What character should be used for color codes?
+  # Legacy Colors are in the format <code><color>
+  # Valid colors are 0-9
+  # Valid formats are K-O and R
+  # Example: &2&lHello is "Hello" with dark green and bold
   #
   # Default: '&'
   color character: '&'
@@ -29,6 +34,13 @@ options:
   #
   # Default: true
   broadcast startup: true
+  
+  # Should hex color codes be enabled if your server is 1.16+?
+  # Hex Colors on signs are in the following format: <code>#<hex>
+  # Example: &#FF0000 is RGB 255, 0, 0 or full red
+  #
+  # Default: true
+  use hex colors: true
 
   # Only enable this option if you want to see extra debug messages.
   # SirBlobman may ask you to enable this option if you need help or have an issue.
@@ -61,6 +73,7 @@ You must set 'options.use permissions' to true in the config.yml to use these pe
 [COLOR=#FF55FF][B]Purple[/B][/COLOR] signs.color.d
 [COLOR=#FFFF55][B]Yellow[/B][/COLOR] signs.color.e
 [COLOR=#FFFFFF][B]White[/B][/COLOR] signs.color.f
+[B]Hex Colors[/B] signs.color.hex
 
 [B]Formatting:[/B]
 Magic: signs.format.k
