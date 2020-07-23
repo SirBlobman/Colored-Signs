@@ -29,6 +29,16 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <filters>
+            <filter>
+              <artifact>*</artifact>
+              <excludes>
+                <exclude>META-INF/*</exclude>
+              </excludes>
+            </filter>
+          </filters>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -55,7 +65,7 @@
     <bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
     <java.version>1.8</java.version>
     <bukkit.plugin.description>${project.description}</bukkit.plugin.description>
-    <bukkit.plugin.version>4.0.0</bukkit.plugin.version>
+    <bukkit.plugin.version>4.1.0</bukkit.plugin.version>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <bukkit.plugin.prefix>${project.name}</bukkit.plugin.prefix>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

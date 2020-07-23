@@ -6,6 +6,17 @@ main: "${bukkit.plugin.main}"
 version: "${bukkit.plugin.version}"
 author: "${bukkit.plugin.author}"
 
+commands:
+  edit-sign:
+    description: "Edit a sign at the provided block coordinates."
+    permission: "signs.command.edit-sign"
+    usage: "/<command> <x> <y> <z> <line> <text...>"
+    aliases:
+      - "editsign"
+      - "signedit"
+      - "signeditor"
+      - "modifysign"
+
 permissions:
   signs.all:
     description: "Gives access to all sign colors and formatting."

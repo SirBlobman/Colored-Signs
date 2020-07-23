@@ -2,13 +2,22 @@
 1.7.10, 1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.1
 
 [SIZE=5][COLOR=#FF0000][B]Description:[/B][/COLOR][/SIZE]
-Colored Signs is a simple plugin that allows you to use chat color codes on signs
+Colored Signs is a simple plugin that allows you to use chat color codes on signs.
+This plugin even supports 1.16.1 hex color codes.
 
 [SIZE=5][COLOR=#FF0000][B]Screenshots and Videos:[/B][/COLOR][/SIZE]
 [SPOILER="Click here to view"]
+[B]Video:[/B]
+[MEDIA="YouTube"]6pL8VuQEMSU[/MEDIA]
+
+[B]Sign Placing:[/B]
 [IMG]https://i.gyazo.com/c78780049223f93cb4ee37f6ccb9075e.png[/IMG]
 [IMG]https://i.gyazo.com/2ba5f6323a6370cf672227c2a4789321.png[/IMG]
-[MEDIA="YouTube"]6pL8VuQEMSU[/MEDIA]
+
+[B]Sign Editing[/B]
+[IMG]https://i.imgur.com/bTrFRnB.png[/IMG]
+[IMG]https://i.imgur.com/R6uLE5P.png[/IMG]
+[IMG]https://i.imgur.com/2sIzGWr.png[/IMG]
 [/SPOILER]
 
 [SIZE=5][COLOR=#FF0000][B]Default Config: [/B](config.yml)[/COLOR][/SIZE]
@@ -34,7 +43,7 @@ options:
   #
   # Default: true
   broadcast startup: true
-  
+
   # Should hex color codes be enabled if your server is 1.16+?
   # Hex Colors on signs are in the following format: <code>#<hex>
   # Example: &#FF0000 is RGB 255, 0, 0 or full red
@@ -47,9 +56,18 @@ options:
   #
   # Default: false
   debug: false
+
+messages:
+  not-player: "&cYou are not a player."
+  invalid-coordinates: "&7{value}&c is not a valid coordinate set."
+  not-sign: "&cThe block at that location is not a sign."
+  invalid-line: "&cThe line must be between 1 and 4 (Not &7{value}&c)."
+  successful-edit: "&aSuccessfully changed the sign."
 [/CODE]
 
 [SIZE=5][COLOR=#FF0000][B]Permissions:[/B][/COLOR][/SIZE]
+[B]signs.command.edit-sign:[/B] Access the '/edit-sign' command.
+
 You must set 'options.use permissions' to true in the config.yml to use these permissions.
 [SPOILER="Click here to view permissions"]
 [B]All Colors and Formatting:[/B] signs.all

@@ -33,3 +33,10 @@ options:
   #
   # Default: false
   debug: false
+
+messages:
+  not-player: "&cYou are not a player."
+  invalid-coordinates: "&7{value}&c is not a valid coordinate set."
+  not-sign: "&cThe block at that location is not a sign."
+  invalid-line: "&cThe line must be between 1 and 4 (Not &7{value}&c)."
+  successful-edit: "&aSuccessfully changed the sign."

@@ -26,7 +26,7 @@
 		<bukkit.plugin.description>${project.description}</bukkit.plugin.description>
 
 		<bukkit.plugin.main>com.SirBlobman.colored.signs.ColoredSigns</bukkit.plugin.main>
-		<bukkit.plugin.version>4.0.0</bukkit.plugin.version>
+		<bukkit.plugin.version>4.1.0</bukkit.plugin.version>
 		<bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
 	</properties>
 	
@@ -77,6 +77,17 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.2</version>
+
+				<configuration>
+					<filters>
+						<filter>
+							<artifact>*</artifact>
+							<excludes>
+								<exclude>META-INF/*</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
 
 				<executions>
 					<execution>
