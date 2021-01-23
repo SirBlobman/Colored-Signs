@@ -1,13 +1,13 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-	<artifactId>ColoredSigns</artifactId>
+	<artifactId>colored-signs</artifactId>
     
     <parent>
-        <groupId>com.SirBlobman.colored.signs</groupId>
+        <groupId>com.github.sirblobman.colored.signs</groupId>
         <artifactId>parent</artifactId>
         <version>4.0.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     
 	<name>Colored Signs</name>
@@ -21,12 +21,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bukkit.version>1.7.10-R0.1-SNAPSHOT</bukkit.version>
 
-		<bukkit.plugin.name>${project.artifactId}</bukkit.plugin.name>
+		<bukkit.plugin.name>ColoredSigns</bukkit.plugin.name>
 		<bukkit.plugin.prefix>${project.name}</bukkit.plugin.prefix>
 		<bukkit.plugin.description>${project.description}</bukkit.plugin.description>
 
-		<bukkit.plugin.main>com.SirBlobman.colored.signs.ColoredSigns</bukkit.plugin.main>
-		<bukkit.plugin.version>4.1.0</bukkit.plugin.version>
+		<bukkit.plugin.main>com.github.sirblobman.colored.signs.ColoredSigns</bukkit.plugin.main>
+		<bukkit.plugin.version>4.2.0</bukkit.plugin.version>
 		<bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
 	</properties>
 	
@@ -55,7 +55,7 @@
         
         <!-- Hex Code -->
         <dependency>
-            <groupId>com.SirBlobman.colored.signs</groupId>
+            <groupId>com.github.sirblobman.colored.signs</groupId>
             <artifactId>hex</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -64,7 +64,6 @@
 	
 	<build>
 		<finalName>${bukkit.plugin.name}-${bukkit.plugin.version}</finalName>
-
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -76,7 +75,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.4</version>
 
 				<configuration>
 					<filters>

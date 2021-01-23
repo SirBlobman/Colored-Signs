@@ -1,9 +1,9 @@
 [SIZE=5][B]Supported Spigot Versions:[/B][/SIZE]
-1.7.10, 1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.1
+1.7.10, 1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.5
 
 [SIZE=5][COLOR=#FF0000][B]Description:[/B][/COLOR][/SIZE]
 Colored Signs is a simple plugin that allows you to use chat color codes on signs.
-This plugin even supports 1.16.1 hex color codes.
+This plugin even supports 1.16+ hex color codes.
 
 [SIZE=5][COLOR=#FF0000][B]Screenshots and Videos:[/B][/COLOR][/SIZE]
 [SPOILER="Click here to view"]
@@ -104,7 +104,11 @@ Reset: signs.format.r
 
 [SIZE=5][B][COLOR=#FF0000]Help and Support:[/COLOR][/B][/SIZE]
 Click the image to join my discord for support. You can also join if you have feature requests or if you just want to chat with other users.
-[URL="https://discord.gg/XMg2agT"][IMG]https://discordapp.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png[/IMG][/URL]
+[URL='https://discord.gg/XMq2agT'][IMG]https://discordapp.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png[/IMG][/URL]
+
+[SIZE=5][B][COLOR=#FF0000]Sponsorships[/COLOR][/B][/SIZE]
+My projects are sponsored by Iceline Hosting. Click the banner to get awesome deals on server hosting!
+[URL='https://iceline-hosting.com/billing/aff.php?aff=90'][IMG]https://cdn.discordapp.com/attachments/715691697320886293/759923620511481906/728-raw.gif[/IMG][/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Extra Information:[/COLOR][/B][/SIZE]
-Please do not use a review to leave bug reports or errors. I am not able to help you through a review. 
+Please do not use a review to leave bug reports or errors. I am not able to help you through a review.

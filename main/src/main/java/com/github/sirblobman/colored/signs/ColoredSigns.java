@@ -1,18 +1,18 @@
-package com.SirBlobman.colored.signs;
+package com.github.sirblobman.colored.signs;
 
 import java.util.logging.Logger;
-
-import com.SirBlobman.colored.signs.command.CommandEditSign;
-import com.SirBlobman.colored.signs.listener.ListenerHexColors;
-import com.SirBlobman.colored.signs.listener.ListenerLegacyColors;
-import com.SirBlobman.colored.signs.utility.LegacyColorUtility;
-import com.SirBlobman.colored.signs.utility.VersionUtility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.github.sirblobman.colored.signs.command.CommandEditSign;
+import com.github.sirblobman.colored.signs.listener.ListenerHexColors;
+import com.github.sirblobman.colored.signs.listener.ListenerLegacyColors;
+import com.github.sirblobman.colored.signs.utility.LegacyColorUtility;
+import com.github.sirblobman.colored.signs.utility.VersionUtility;
 
 public class ColoredSigns extends JavaPlugin {
     @Override

@@ -1,4 +1,4 @@
-package com.SirBlobman.colored.signs.utility;
+package com.github.sirblobman.colored.signs.utility;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

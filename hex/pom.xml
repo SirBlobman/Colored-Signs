@@ -4,10 +4,10 @@
 	<artifactId>hex</artifactId>
     
     <parent>
-        <groupId>com.SirBlobman.colored.signs</groupId>
+        <groupId>com.github.sirblobman.colored.signs</groupId>
         <artifactId>parent</artifactId>
         <version>4.0.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 	
 	<properties>
@@ -16,7 +16,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkit.version>1.16.1-R0.1-SNAPSHOT</bukkit.version>
+		<bukkit.version>1.16.5-R0.1-SNAPSHOT</bukkit.version>
 	</properties>
 	
 	<repositories>

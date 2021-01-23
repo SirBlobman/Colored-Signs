@@ -1,8 +1,8 @@
-package com.SirBlobman.colored.signs.listener;
+package com.github.sirblobman.colored.signs.listener;
 
 import java.util.Objects;
 
-import com.SirBlobman.colored.signs.utility.HexColorUtility;
+import com.github.sirblobman.colored.signs.utility.HexColorUtility;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

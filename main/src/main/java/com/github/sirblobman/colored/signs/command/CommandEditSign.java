@@ -1,14 +1,13 @@
-package com.SirBlobman.colored.signs.command;
+package com.github.sirblobman.colored.signs.command;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import com.SirBlobman.colored.signs.ColoredSigns;
-import com.SirBlobman.colored.signs.utility.HexColorUtility;
-import com.SirBlobman.colored.signs.utility.LegacyColorUtility;
-import com.SirBlobman.colored.signs.utility.Replacer;
-import com.SirBlobman.colored.signs.utility.VersionUtility;
 
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -19,6 +18,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import com.github.sirblobman.colored.signs.ColoredSigns;
+import com.github.sirblobman.colored.signs.utility.HexColorUtility;
+import com.github.sirblobman.colored.signs.utility.LegacyColorUtility;
+import com.github.sirblobman.colored.signs.utility.Replacer;
+import com.github.sirblobman.colored.signs.utility.VersionUtility;
 
 public class CommandEditSign implements TabExecutor {
     private final ColoredSigns plugin;

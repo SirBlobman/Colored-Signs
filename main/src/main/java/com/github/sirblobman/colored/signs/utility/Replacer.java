@@ -1,4 +1,4 @@
-package com.SirBlobman.colored.signs.utility;
+package com.github.sirblobman.colored.signs.utility;
 
 @FunctionalInterface
 public interface Replacer {
