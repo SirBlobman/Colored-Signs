@@ -2,16 +2,15 @@ package com.github.sirblobman.colored.signs.listener;
 
 import java.util.Objects;
 
-import com.github.sirblobman.colored.signs.ColoredSigns;
-import com.github.sirblobman.colored.signs.utility.LegacyColorUtility;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+
+import com.github.sirblobman.colored.signs.ColoredSigns;
+import com.github.sirblobman.colored.signs.utility.LegacyColorUtility;
 
 public class ListenerLegacyColors implements Listener {
     private final ColoredSigns plugin;

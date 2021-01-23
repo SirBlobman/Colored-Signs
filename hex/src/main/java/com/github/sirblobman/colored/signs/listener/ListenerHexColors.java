@@ -2,16 +2,15 @@ package com.github.sirblobman.colored.signs.listener;
 
 import java.util.Objects;
 
-import com.github.sirblobman.colored.signs.utility.HexColorUtility;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.github.sirblobman.colored.signs.utility.HexColorUtility;
 
 public class ListenerHexColors implements Listener {
     private final JavaPlugin plugin;
