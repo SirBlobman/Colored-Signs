@@ -1,2 +1,2 @@
 # Colored Signs
- A plugin that enables color and formatting codes for signs
+A plugin that enables color and formatting codes for signs.

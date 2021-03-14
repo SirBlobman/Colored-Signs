@@ -9,11 +9,25 @@
 	<name>Colored Signs Parent</name>
 	<description>The parent POM for the Colored Signs project.</description>
     
+    <distributionManagement>
+        <!-- SirBlobman Releases -->
+        <repository>
+            <id>sb-public-releases</id>
+            <url>https://nexus.sirblobman.xyz/repository/public-releases/</url>
+        </repository>
+        
+        <!-- SirBlobman Snapshots -->
+        <snapshotRepository>
+            <id>sb-public-snapshots</id>
+            <url>https://nexus.sirblobman.xyz/repository/public-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
     <modules>
         <module>hex</module>
         <module>main</module>
     </modules>
-
+    
     <build>
         <defaultGoal>clean install</defaultGoal>
     </build>
