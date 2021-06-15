@@ -1,0 +1,33 @@
+# This option is used to print out extra information to the console.
+# Debug Mode is very helpful when you are having issues and need to see if the plugin is working.
+# Default: false
+debug-mode: false
+
+# What character should be used to indicate color codes?
+# Legacy color codes are in the format <character><color>
+# Valid colors are 0-9 and A-F
+# Valid formats are K-O and R
+#
+# Example: "&2&lHello" is "Hello" with dark green color and bold formatting.
+# Default: '&'
+color-character: '&'
+
+# Should permissions be required for each color code and formatting type?
+# Default: false
+permission-mode: false
+
+# Should a message be broadcasted to the server when the plugin is enabled?
+# Default: true
+broadcast-enabled: true
+
+# Should a message be broadcasted to the server when the plugin is disabled?
+# Default: true
+broadcast-disabled: true
+
+# Should hex color codes be enabled on signs?
+# This features requires Spigot 1.16 or higher.
+#
+# Hex Colors on signs are in the format <character>#<hex-color>
+# Example: "&#FF0000Hello" is "Hello" with RGB 255, 0, 0, also known as "100% Red"
+# Default: true
+enable-hex-color-codes: true

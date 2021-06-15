@@ -1,0 +1,8 @@
+error:
+  player-only: "&cOnly players can execute that command."
+  not-sign: "&cThe block you are looking at is not a sign."
+  invalid-line: "&cThe line index must be between 1 and 4."
+
+broadcast-enabled: "&aColored Signs is now enabled!"
+broadcast-disabled: "&cColored Signs is now disabled!"
+successful-edit: "&aSuccessfully changed the sign."
