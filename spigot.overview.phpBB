@@ -56,6 +56,11 @@ broadcast-disabled: true
 # Default: true
 enable-hex-color-codes: true
 
+# Should sign editing be enabled?
+# This feature requires Spigot 1.18.2 or higher.
+# To edit a sign, sneak and right-click it.
+enable-sign-editor: true
+
 [/CODE]
 
 [SIZE=5][COLOR=#FF0000][B]Permissions:[/B][/COLOR][/SIZE]
