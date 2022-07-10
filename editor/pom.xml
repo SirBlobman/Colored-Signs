@@ -11,23 +11,28 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>legacy</artifactId>
-    <name>Colored Signs: Legacy</name>
-    <description>A module for Colored Signs that contains the legacy methods and color codes.</description>
+    <artifactId>editor</artifactId>
+    <name>Colored Signs: Editor</name>
+    <description>A module for Colored Signs that contains sign editor features.</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <bukkit.version>1.18.2-R0.1-SNAPSHOT</bukkit.version>
+    </properties>
 
     <repositories>
-        <!-- SirBlobman Private Repository -->
+        <!-- SpigotMC Repository -->
         <repository>
-            <id>sirblobman-private</id>
-            <url>https://nexus.sirblobman.xyz/repository/private/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <!-- Bukkit API -->
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>${bukkit.version}</version>
             <scope>provided</scope>
         </dependency>

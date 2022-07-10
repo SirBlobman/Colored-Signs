@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.github.sirblobman.colored.signs.command.CommandEditSign;
 import com.github.sirblobman.colored.signs.listener.ListenerHexColors;
 import com.github.sirblobman.colored.signs.listener.ListenerLegacyColors;
+import com.github.sirblobman.colored.signs.listener.ListenerSignEditor;
 import com.github.sirblobman.colored.signs.manager.ConfigurationManager;
 import com.github.sirblobman.colored.signs.utility.LegacyUtility;
 import com.github.sirblobman.colored.signs.utility.ModernUtility;
@@ -103,6 +104,10 @@ public final class ColoredSignsPlugin extends JavaPlugin {
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion >= 16) {
             new ListenerHexColors(this).register();
+        }
+
+        if(minorVersion >= 18) {
+            new ListenerSignEditor(this).register();
         }
     }
 

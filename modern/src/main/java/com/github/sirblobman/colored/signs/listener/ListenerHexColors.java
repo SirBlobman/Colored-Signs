@@ -16,6 +16,7 @@ import com.github.sirblobman.colored.signs.utility.ModernUtility;
 
 public final class ListenerHexColors implements Listener {
     private final JavaPlugin plugin;
+
     public ListenerHexColors(JavaPlugin plugin) {
         this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
     }

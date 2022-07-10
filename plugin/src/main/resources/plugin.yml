@@ -32,6 +32,11 @@ permissions:
     children:
       signs.color.all: true
       signs.format.all: true
+      signs.edit: true
+
+    signs.edit:
+      description: "Gives access to sign editing."
+      default: op
 
     signs.color.all:
       description: "Gives access to all sign colors."

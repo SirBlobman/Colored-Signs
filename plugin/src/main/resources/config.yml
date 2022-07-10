@@ -31,3 +31,9 @@ broadcast-disabled: true
 # Example: "&#FF0000Hello" is "Hello" with RGB 255, 0, 0, also known as "100% Red"
 # Default: true
 enable-hex-color-codes: true
+
+
+# Should sign editing be enabled?
+# This feature requires Spigot 1.18.2 or higher.
+# To edit a sign, sneak and right-click it.
+enable-sign-editor: true
