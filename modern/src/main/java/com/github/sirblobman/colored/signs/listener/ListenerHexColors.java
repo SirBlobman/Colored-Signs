@@ -29,7 +29,9 @@ public final class ListenerHexColors implements Listener {
     @EventHandler(priority= EventPriority.HIGH, ignoreCancelled=true)
     public void onSignChange(SignChangeEvent e) {
         Player player = e.getPlayer();
-        if(!isEnabled() || !hasPermission(player)) return;
+        if(!isEnabled() || !hasPermission(player)) {
+            return;
+        }
         
         char colorChar = getColorCharacter();
         String[] lineArray = e.getLines();
@@ -56,7 +58,9 @@ public final class ListenerHexColors implements Listener {
     private char getColorCharacter() {
         FileConfiguration configuration = this.plugin.getConfig();
         String characterString = configuration.getString("color-character");
-        if(characterString == null) return '&';
+        if(characterString == null) {
+            return '&';
+        }
         
         char[] charArray = characterString.toCharArray();
         return charArray[0];

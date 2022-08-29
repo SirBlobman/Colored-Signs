@@ -42,7 +42,9 @@ public final class ListenerLegacyColors implements Listener {
     private char getColorCharacter() {
         FileConfiguration configuration = this.plugin.getConfig();
         String characterString = configuration.getString("color-character");
-        if(characterString == null) return '&';
+        if(characterString == null) {
+            return '&';
+        }
 
         char[] charArray = characterString.toCharArray();
         return charArray[0];
@@ -51,16 +53,25 @@ public final class ListenerLegacyColors implements Listener {
     private boolean hasAllPermissions(Player player) {
         FileConfiguration configuration = this.plugin.getConfig();
         boolean permissionMode = configuration.getBoolean("permission-mode");
-        if(!permissionMode) return true;
+        if(!permissionMode) {
+            return true;
+        }
 
-        if(player.hasPermission("signs.all")) return true;
+        if(player.hasPermission("signs.all")) {
+            return true;
+        }
+
         return (player.hasPermission("signs.color.all") && player.hasPermission("signs.format.all"));
     }
 
     private String formatLine(Player player, String string) {
         char colorChar = getColorCharacter();
-        if(hasAllPermissions(player)) return LegacyUtility.replaceAll(colorChar, string);
-        boolean ignoreColorCheck = false, ignoreFormatCheck = false;
+        if(hasAllPermissions(player)) {
+            return LegacyUtility.replaceAll(colorChar, string);
+        }
+
+        boolean ignoreColorCheck = false;
+        boolean ignoreFormatCheck = false;
 
         if(player.hasPermission("signs.color.all")) {
             string = LegacyUtility.replaceColor(colorChar, string);
@@ -72,8 +83,14 @@ public final class ListenerLegacyColors implements Listener {
             ignoreFormatCheck = true;
         }
 
-        if(!ignoreColorCheck) string = replaceColors(player, string);
-        if(!ignoreFormatCheck) string = replaceFormats(player, string);
+        if(!ignoreColorCheck) {
+            string = replaceColors(player, string);
+        }
+
+        if(!ignoreFormatCheck) {
+            string = replaceFormats(player, string);
+        }
+
         return string;
     }
 
@@ -83,7 +100,9 @@ public final class ListenerLegacyColors implements Listener {
 
         for(String code : validColorArray) {
             String permission = ("signs.color." + code);
-            if(!player.hasPermission(permission)) continue;
+            if(!player.hasPermission(permission)) {
+                continue;
+            }
 
             String caps = code.toUpperCase();
             string = LegacyUtility.replaceSpecific(colorChar, caps + code, string);
@@ -98,7 +117,9 @@ public final class ListenerLegacyColors implements Listener {
 
         for(String code : validFormatArray) {
             String permission = ("signs.format." + code);
-            if(!player.hasPermission(permission)) continue;
+            if(!player.hasPermission(permission)) {
+                continue;
+            }
 
             String caps = code.toUpperCase();
             string = LegacyUtility.replaceSpecific(colorChar, caps + code, string);
