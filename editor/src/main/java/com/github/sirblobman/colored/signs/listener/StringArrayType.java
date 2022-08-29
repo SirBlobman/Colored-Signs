@@ -38,7 +38,7 @@ public final class StringArrayType implements PersistentDataType<PersistentDataC
 
         for (int i = 0; i < complex.length; i++) {
             String part = complex[i];
-            if(part == null) {
+            if (part == null) {
                 continue;
             }
 
@@ -60,7 +60,7 @@ public final class StringArrayType implements PersistentDataType<PersistentDataC
         }
 
         String[] complex = new String[length];
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             NamespacedKey partKey = getKey(Integer.toString(i));
             String part = primitive.get(partKey, STRING);
             complex[i] = part;

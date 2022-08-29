@@ -39,7 +39,7 @@ public final class ListenerSignEditor implements Listener {
         String[] rawLines = e.getLines();
         Runnable task = () -> {
             BlockState blockState = block.getState();
-            if(!(blockState instanceof Sign sign)) {
+            if (!(blockState instanceof Sign sign)) {
                 return;
             }
 
@@ -58,36 +58,36 @@ public final class ListenerSignEditor implements Listener {
         printDebug("Detected PlayerInteractEvent.");
 
         Action action = e.getAction();
-        if(action != Action.RIGHT_CLICK_BLOCK) {
+        if (action != Action.RIGHT_CLICK_BLOCK) {
             printDebug("Action is not right click block, ignoring.");
             return;
         }
 
         EquipmentSlot hand = e.getHand();
-        if(hand != EquipmentSlot.HAND) {
+        if (hand != EquipmentSlot.HAND) {
             printDebug("Hand is not main, ignoring.");
             return;
         }
 
         Player player = e.getPlayer();
-        if(!player.isSneaking()) {
+        if (!player.isSneaking()) {
             printDebug("Player is not sneaking, ignoring.");
             return;
         }
 
         Block block = e.getClickedBlock();
-        if(block == null) {
+        if (block == null) {
             printDebug("Clicked block is null, ignoring.");
             return;
         }
 
         BlockState blockState = block.getState();
-        if(!(blockState instanceof Sign sign)) {
+        if (!(blockState instanceof Sign sign)) {
             printDebug("Clicked block is not sign, ignoring.");
             return;
         }
 
-        if(!isEnabled() || !hasPermission(player)) {
+        if (!isEnabled() || !hasPermission(player)) {
             printDebug("Editor not enabled or player does not have permission, ignoring.");
             return;
         }
@@ -95,9 +95,9 @@ public final class ListenerSignEditor implements Listener {
         NamespacedKey rawLinesKey = new NamespacedKey(this.plugin, "raw-lines");
         PersistentDataContainer dataContainer = sign.getPersistentDataContainer();
         String[] rawLines = dataContainer.get(rawLinesKey, getStringArrayType());
-        if(rawLines != null) {
+        if (rawLines != null) {
             char colorChar = getColorCharacter();
-            for(int i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; i++) {
                 String rawLine = rawLines[i];
                 printDebug("Raw Line " + i + ": " + rawLine);
 
@@ -113,7 +113,7 @@ public final class ListenerSignEditor implements Listener {
         JavaPlugin plugin = getPlugin();
         Runnable task = () -> {
             BlockState newState = block.getState();
-            if(!(newState instanceof Sign newSign)) {
+            if (!(newState instanceof Sign newSign)) {
                 printDebug("Updated block is not sign, ignoring.");
                 return;
             }
@@ -162,7 +162,7 @@ public final class ListenerSignEditor implements Listener {
     }
 
     private void printDebug(String message) {
-        if(isDebugModeDisabled()) {
+        if (isDebugModeDisabled()) {
             return;
         }
 
@@ -174,7 +174,7 @@ public final class ListenerSignEditor implements Listener {
     private char getColorCharacter() {
         FileConfiguration configuration = this.plugin.getConfig();
         String characterString = configuration.getString("color-character");
-        if(characterString == null) {
+        if (characterString == null) {
             return '&';
         }
 
@@ -197,7 +197,7 @@ public final class ListenerSignEditor implements Listener {
         StringBuilder builder = new StringBuilder();
         char colorChar = getColorCharacter();
 
-        while(matcher.find()) {
+        while (matcher.find()) {
             String hexWithAnd = matcher.group(1);
             String hexPart = hexWithAnd.replace("&", "");
             matcher.appendReplacement(builder, colorChar + "#" + hexPart);

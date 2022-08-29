@@ -33,12 +33,12 @@ public final class CommandEditSign implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             List<String> valueList = Arrays.asList("1", "2", "3", "4");
             return StringUtil.copyPartialMatches(args[0], valueList, new ArrayList<>());
         }
 
-        if(args.length == 2) {
+        if (args.length == 2) {
             return Collections.singletonList("Line Text");
         }
 
@@ -47,8 +47,11 @@ public final class CommandEditSign implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length < 1) return false;
-        if(!(sender instanceof Player)) {
+        if (args.length < 1) {
+            return false;
+        }
+
+        if (!(sender instanceof Player)) {
             sendMessage(sender, "error.player-only", null);
             return true;
         }
@@ -59,12 +62,18 @@ public final class CommandEditSign implements TabExecutor {
 
         try {
             lineIndex = Integer.parseInt(lineIndexString);
-            if(lineIndex < 1) throw new NumberFormatException("too small!");
-            if(lineIndex > 4) throw new NumberFormatException("too big!");
+            if (lineIndex < 1) {
+                throw new NumberFormatException("too small!");
+            }
+
+            if (lineIndex > 4) {
+                throw new NumberFormatException("too big!");
+            }
+
             lineIndex = (lineIndex - 1);
-        } catch(NumberFormatException ex) {
-            sendMessage(player, "error.invalid-line",
-                    message -> message.replace("{value}", lineIndexString));
+        } catch (NumberFormatException ex) {
+            Function<String, String> replacer = message -> message.replace("{value}", lineIndexString);
+            sendMessage(player, "error.invalid-line", replacer);
             return true;
         }
 
@@ -75,12 +84,12 @@ public final class CommandEditSign implements TabExecutor {
         int minorVersion = VersionUtility.getMinorVersion();
 
         lineText = LegacyUtility.replaceAll(colorChar, lineText);
-        if(minorVersion >= 16) {
+        if (minorVersion >= 16) {
             lineText = ModernUtility.replaceHexColors(colorChar, lineText);
         }
 
         Block targetBlock;
-        if(minorVersion >= 16) {
+        if (minorVersion >= 16) {
             targetBlock = ModernUtility.getTargetBlock(player);
         } else {
             targetBlock = LegacyUtility.getTargetBlock(player);
@@ -88,7 +97,7 @@ public final class CommandEditSign implements TabExecutor {
 
 
         BlockState blockState = targetBlock.getState();
-        if(!(blockState instanceof Sign)) {
+        if (!(blockState instanceof Sign)) {
             sendMessage(player, "error.not-sign", null);
             return true;
         }
@@ -101,27 +110,49 @@ public final class CommandEditSign implements TabExecutor {
         return true;
     }
 
+    private ColoredSignsPlugin getPlugin() {
+        return this.plugin;
+    }
+
+    private FileConfiguration getConfiguration() {
+        ColoredSignsPlugin plugin = getPlugin();
+        return plugin.getConfig();
+    }
+
     private char getColorCharacter() {
-        FileConfiguration configuration = this.plugin.getConfig();
+        FileConfiguration configuration = getConfiguration();
         String characterString = configuration.getString("color-character");
-        if(characterString == null) return '&';
+        if (characterString == null) {
+            return '&';
+        }
 
         char[] charArray = characterString.toCharArray();
         return charArray[0];
     }
 
     private void sendMessage(CommandSender sender, String key, Function<String, String> replacer) {
-        if(sender == null || key == null) return;
+        if (sender == null || key == null) {
+            return;
+        }
 
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        ColoredSignsPlugin plugin = getPlugin();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration language = configurationManager.get("language.yml");
         String message = language.getString(key);
 
-        if(message == null || message.isEmpty()) return;
-        if(replacer != null) message = replacer.apply(message);
-        if(message == null || message.isEmpty()) return;
+        if (message == null || message.isEmpty()) {
+            return;
+        }
 
-        String messageColored = this.plugin.defaultFullColor(message);
+        if (replacer != null) {
+            message = replacer.apply(message);
+        }
+
+        if (message == null || message.isEmpty()) {
+            return;
+        }
+
+        String messageColored = plugin.defaultFullColor(message);
         sender.sendMessage(messageColored);
     }
 }

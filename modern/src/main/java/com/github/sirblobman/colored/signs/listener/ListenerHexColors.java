@@ -21,47 +21,57 @@ public final class ListenerHexColors implements Listener {
         this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
     }
 
-    public void register() {
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(this, this.plugin);
-    }
-    
-    @EventHandler(priority= EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onSignChange(SignChangeEvent e) {
         Player player = e.getPlayer();
-        if(!isEnabled() || !hasPermission(player)) {
+        if (!isEnabled() || !hasPermission(player)) {
             return;
         }
-        
+
         char colorChar = getColorCharacter();
         String[] lineArray = e.getLines();
         int lineArrayLength = lineArray.length;
-        
-        for(int i = 0; i < lineArrayLength; i++) {
+
+        for (int i = 0; i < lineArrayLength; i++) {
             String oldLine = lineArray[i];
             String newLine = ModernUtility.replaceHexColors(colorChar, oldLine);
             e.setLine(i, newLine);
         }
     }
-    
+
+    public void register() {
+        JavaPlugin plugin = getPlugin();
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(this, plugin);
+    }
+
+    private JavaPlugin getPlugin() {
+        return this.plugin;
+    }
+
+    private FileConfiguration getConfiguration() {
+        JavaPlugin plugin = getPlugin();
+        return plugin.getConfig();
+    }
+
     private boolean isEnabled() {
-        FileConfiguration configuration = this.plugin.getConfig();
+        FileConfiguration configuration = getConfiguration();
         return configuration.getBoolean("enable-hex-color-codes", true);
     }
-    
+
     private boolean hasPermission(Player player) {
-        FileConfiguration configuration = this.plugin.getConfig();
+        FileConfiguration configuration = getConfiguration();
         boolean usePermissions = configuration.getBoolean("permission-mode");
         return (!usePermissions || player.hasPermission("signs.color.hex"));
     }
-    
+
     private char getColorCharacter() {
-        FileConfiguration configuration = this.plugin.getConfig();
+        FileConfiguration configuration = getConfiguration();
         String characterString = configuration.getString("color-character");
-        if(characterString == null) {
+        if (characterString == null) {
             return '&';
         }
-        
+
         char[] charArray = characterString.toCharArray();
         return charArray[0];
     }

@@ -18,8 +18,8 @@ public final class ModernUtility {
         Matcher matcher = pattern.matcher(string);
 
         StringBuffer buffer = new StringBuffer();
-        while(matcher.find()) {
-            if(matcher.group(1) != null) {
+        while (matcher.find()) {
+            if (matcher.group(1) != null) {
                 matcher.appendReplacement(buffer, colorChar + "#$2");
                 continue;
             }
@@ -28,7 +28,9 @@ public final class ModernUtility {
                 String hexCodeString = matcher.group(2);
                 String hexCode = parseHexColor(hexCodeString);
                 matcher.appendReplacement(buffer, hexCode);
-            } catch(NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+                // Ignored Exception
+            }
         }
 
         matcher.appendTail(buffer);
@@ -44,8 +46,13 @@ public final class ModernUtility {
     }
 
     private static String parseHexColor(String string) throws NumberFormatException {
-        if(string.startsWith("#")) string = string.substring(1);
-        if(string.length() != 6) throw new NumberFormatException("Invalid hex length");
+        if (string.startsWith("#")) {
+            string = string.substring(1);
+        }
+
+        if (string.length() != 6) {
+            throw new NumberFormatException("Invalid hex length");
+        }
 
         Color.decode("#" + string);
         StringBuilder assembled = new StringBuilder();
@@ -54,7 +61,7 @@ public final class ModernUtility {
         assembled.append("x");
 
         char[] charArray = string.toCharArray();
-        for(char character : charArray) {
+        for (char character : charArray) {
             assembled.append(ChatColor.COLOR_CHAR);
             assembled.append(character);
         }

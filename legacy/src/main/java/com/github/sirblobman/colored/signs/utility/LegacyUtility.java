@@ -11,7 +11,10 @@ public final class LegacyUtility {
     }
 
     public static String replaceAll(char colorChar, String string) {
-        if(string == null) return "";
+        if (string == null) {
+            return "";
+        }
+
         return ChatColor.translateAlternateColorCodes(colorChar, string);
     }
 
@@ -27,10 +30,10 @@ public final class LegacyUtility {
 
     public static String replaceSpecific(char colorChar, String specific, String string) {
         char[] charArray = string.toCharArray();
-        for(int i = 0; i < (charArray.length- 1); i++) {
+        for (int i = 0; i < (charArray.length - 1); i++) {
             boolean hasColor1 = (colorChar == charArray[i]);
             boolean hasColor2 = (specific.indexOf(charArray[i + 1]) > -1);
-            if(hasColor1 && hasColor2) {
+            if (hasColor1 && hasColor2) {
                 charArray[i] = ChatColor.COLOR_CHAR;
                 charArray[i + 1] = Character.toLowerCase(charArray[i + 1]);
             }

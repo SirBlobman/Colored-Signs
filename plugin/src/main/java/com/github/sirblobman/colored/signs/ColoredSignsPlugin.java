@@ -1,8 +1,5 @@
 package com.github.sirblobman.colored.signs;
 
-import java.util.Locale;
-import java.util.logging.Logger;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
@@ -72,19 +69,9 @@ public final class ColoredSignsPlugin extends JavaPlugin {
         return this.configurationManager;
     }
 
-    public void sendDebugMessage(String message) {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("debug-mode", false)) return;
-
-        Logger logger = getLogger();
-        String logMessage = String.format(Locale.US,"[Debug] %s", message);
-        logger.info(logMessage);
-    }
-
     public String defaultFullColor(String message) {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion > 16) {
+        if (minorVersion > 16) {
             message = ModernUtility.replaceHexColors('&', message);
         }
 
@@ -101,12 +88,14 @@ public final class ColoredSignsPlugin extends JavaPlugin {
     private void registerListeners() {
         new ListenerLegacyColors(this).register();
 
+        // Hex Color support was added in Minecraft 1.16
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion >= 16) {
+        if (minorVersion >= 16) {
             new ListenerHexColors(this).register();
         }
 
-        if(minorVersion >= 18) {
+        // Sign Editor support was added in Spigot 1.18.2
+        if (minorVersion >= 18) {
             new ListenerSignEditor(this).register();
         }
     }
@@ -114,11 +103,15 @@ public final class ColoredSignsPlugin extends JavaPlugin {
     private void broadcastEnableMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast-enabled", true)) return;
+        if (!configuration.getBoolean("broadcast-enabled", true)) {
+            return;
+        }
 
         YamlConfiguration language = configurationManager.get("language.yml");
         String message = language.getString("broadcast-enabled");
-        if(message == null || message.isEmpty()) return;
+        if (message == null || message.isEmpty()) {
+            return;
+        }
 
         String messageColored = defaultFullColor(message);
         Bukkit.broadcastMessage(messageColored);
@@ -127,11 +120,15 @@ public final class ColoredSignsPlugin extends JavaPlugin {
     private void broadcastDisableMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast-disabled", true)) return;
+        if (!configuration.getBoolean("broadcast-disabled", true)) {
+            return;
+        }
 
         YamlConfiguration language = configurationManager.get("language.yml");
         String message = language.getString("broadcast-disabled");
-        if(message == null || message.isEmpty()) return;
+        if (message == null || message.isEmpty()) {
+            return;
+        }
 
         String messageColored = defaultFullColor(message);
         Bukkit.broadcastMessage(messageColored);
