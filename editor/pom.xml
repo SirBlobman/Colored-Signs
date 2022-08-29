@@ -29,18 +29,10 @@
     </repositories>
 
     <dependencies>
-        <!-- Bukkit API -->
+        <!-- Spigot API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>${bukkit.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Bukkit API -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
             <version>${bukkit.version}</version>
             <scope>provided</scope>
         </dependency>
