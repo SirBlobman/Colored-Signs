@@ -1,24 +1,17 @@
 package com.github.sirblobman.colored.signs.listener;
 
-import java.util.Objects;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.sirblobman.colored.signs.IColoredSigns;
+import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
 import com.github.sirblobman.colored.signs.utility.LegacyUtility;
 
-public final class ListenerLegacyColors implements Listener {
-    private final JavaPlugin plugin;
-
-    public ListenerLegacyColors(JavaPlugin plugin) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
+public final class ListenerLegacyColors extends ColoredSignsListener {
+    public ListenerLegacyColors(IColoredSigns plugin) {
+        super(plugin);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -34,36 +27,14 @@ public final class ListenerLegacyColors implements Listener {
         }
     }
 
-    public void register() {
-        JavaPlugin plugin = getPlugin();
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(this, plugin);
-    }
-
-    private JavaPlugin getPlugin() {
-        return this.plugin;
-    }
-
-    private FileConfiguration getConfiguration() {
-        JavaPlugin plugin = getPlugin();
-        return plugin.getConfig();
-    }
-
     private char getColorCharacter() {
-        FileConfiguration configuration = getConfiguration();
-        String characterString = configuration.getString("color-character");
-        if (characterString == null) {
-            return '&';
-        }
-
-        char[] charArray = characterString.toCharArray();
-        return charArray[0];
+        ColoredSignsConfiguration configuration = getConfiguration();
+        return configuration.getColorCharacter();
     }
 
     private boolean hasAllPermissions(Player player) {
-        FileConfiguration configuration = getConfiguration();
-        boolean permissionMode = configuration.getBoolean("permission-mode");
-        if (!permissionMode) {
+        ColoredSignsConfiguration configuration = getConfiguration();
+        if (!configuration.isPermissionMode()) {
             return true;
         }
 

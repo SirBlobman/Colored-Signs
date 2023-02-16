@@ -1,4 +1,4 @@
-package com.github.sirblobman.colored.signs.manager;
+package com.github.sirblobman.colored.signs.configuration;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,26 +74,6 @@ public final class ConfigurationManager {
 
         reload(fileName);
         return this.configurationMap.getOrDefault(fileName, new YamlConfiguration());
-    }
-
-    /**
-     * Save a configuration from memory to storage.
-     *
-     * @param fileName The relative name of the configuration.
-     */
-    public void save(String fileName) {
-        try {
-            YamlConfiguration configuration = this.configurationMap.getOrDefault(fileName, null);
-            if (configuration == null) {
-                return;
-            }
-
-            File file = getFile(fileName);
-            configuration.save(file);
-        } catch (IOException ex) {
-            Logger logger = getPlugin().getLogger();
-            logger.log(Level.WARNING, "An I/O exception occurred while saving a configuration file:", ex);
-        }
     }
 
     /**

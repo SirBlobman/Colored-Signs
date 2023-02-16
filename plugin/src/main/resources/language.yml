@@ -5,4 +5,5 @@ error:
 
 broadcast-enabled: "&aColored Signs is now enabled!"
 broadcast-disabled: "&cColored Signs is now disabled!"
+
 successful-edit: "&aSuccessfully changed the sign."

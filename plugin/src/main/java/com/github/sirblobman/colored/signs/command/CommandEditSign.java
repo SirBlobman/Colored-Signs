@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -13,13 +12,12 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import com.github.sirblobman.colored.signs.ColoredSignsPlugin;
-import com.github.sirblobman.colored.signs.manager.ConfigurationManager;
+import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
+import com.github.sirblobman.colored.signs.configuration.LanguageConfiguration;
 import com.github.sirblobman.colored.signs.utility.LegacyUtility;
 import com.github.sirblobman.colored.signs.utility.ModernUtility;
 import com.github.sirblobman.colored.signs.utility.VersionUtility;
@@ -51,8 +49,11 @@ public final class CommandEditSign implements TabExecutor {
             return false;
         }
 
+        ColoredSignsPlugin plugin = getPlugin();
+        LanguageConfiguration languageConfiguration = plugin.getLanguageConfiguration();
         if (!(sender instanceof Player)) {
-            sendMessage(sender, "error.player-only", null);
+            String message = languageConfiguration.getErrorPlayerOnly();
+            sendMessage(sender, message);
             return true;
         }
 
@@ -72,24 +73,28 @@ public final class CommandEditSign implements TabExecutor {
 
             lineIndex = (lineIndex - 1);
         } catch (NumberFormatException ex) {
-            Function<String, String> replacer = message -> message.replace("{value}", lineIndexString);
-            sendMessage(player, "error.invalid-line", replacer);
+            String message = languageConfiguration.getErrorInvalidLine().replace("{value}", lineIndexString);
+            sendMessage(player, message);
             return true;
         }
 
         String[] lineArgs = (args.length < 2 ? new String[0] : Arrays.copyOfRange(args, 1, args.length));
         String lineText = String.join(" ", lineArgs);
 
-        char colorChar = getColorCharacter();
+        ColoredSignsConfiguration configuration = plugin.getConfiguration();
+        char colorChar = configuration.getColorCharacter();
+
         int minorVersion = VersionUtility.getMinorVersion();
+        boolean enableHexConfig = configuration.isEnableHexColorCodes();
+        boolean versionCheck16 = (minorVersion >= 16);
 
         lineText = LegacyUtility.replaceAll(colorChar, lineText);
-        if (minorVersion >= 16) {
+        if (enableHexConfig && versionCheck16) {
             lineText = ModernUtility.replaceHexColors(colorChar, lineText);
         }
 
         Block targetBlock;
-        if (minorVersion >= 16) {
+        if (versionCheck16) {
             targetBlock = ModernUtility.getTargetBlock(player);
         } else {
             targetBlock = LegacyUtility.getTargetBlock(player);
@@ -98,7 +103,8 @@ public final class CommandEditSign implements TabExecutor {
 
         BlockState blockState = targetBlock.getState();
         if (!(blockState instanceof Sign)) {
-            sendMessage(player, "error.not-sign", null);
+            String message = languageConfiguration.getErrorNotSign();
+            sendMessage(player, message);
             return true;
         }
 
@@ -106,7 +112,8 @@ public final class CommandEditSign implements TabExecutor {
         sign.setLine(lineIndex, lineText);
         sign.update(true, true);
 
-        sendMessage(player, "successful-edit", null);
+        String message = languageConfiguration.getSuccessfulEdit();
+        sendMessage(player, message);
         return true;
     }
 
@@ -114,45 +121,11 @@ public final class CommandEditSign implements TabExecutor {
         return this.plugin;
     }
 
-    private FileConfiguration getConfiguration() {
-        ColoredSignsPlugin plugin = getPlugin();
-        return plugin.getConfig();
-    }
-
-    private char getColorCharacter() {
-        FileConfiguration configuration = getConfiguration();
-        String characterString = configuration.getString("color-character");
-        if (characterString == null) {
-            return '&';
-        }
-
-        char[] charArray = characterString.toCharArray();
-        return charArray[0];
-    }
-
-    private void sendMessage(CommandSender sender, String key, Function<String, String> replacer) {
-        if (sender == null || key == null) {
+    private void sendMessage(CommandSender sender, String message) {
+        if (sender == null || message == null || message.isEmpty()) {
             return;
         }
 
-        ColoredSignsPlugin plugin = getPlugin();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration language = configurationManager.get("language.yml");
-        String message = language.getString(key);
-
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        if (replacer != null) {
-            message = replacer.apply(message);
-        }
-
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        String messageColored = plugin.defaultFullColor(message);
-        sender.sendMessage(messageColored);
+        sender.sendMessage(message);
     }
 }

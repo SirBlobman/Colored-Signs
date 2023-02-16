@@ -7,30 +7,40 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.colored.signs.command.CommandEditSign;
+import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
+import com.github.sirblobman.colored.signs.configuration.ConfigurationManager;
+import com.github.sirblobman.colored.signs.configuration.LanguageConfiguration;
 import com.github.sirblobman.colored.signs.listener.ListenerHexColors;
 import com.github.sirblobman.colored.signs.listener.ListenerLegacyColors;
 import com.github.sirblobman.colored.signs.listener.ListenerSignEditor;
-import com.github.sirblobman.colored.signs.manager.ConfigurationManager;
 import com.github.sirblobman.colored.signs.utility.LegacyUtility;
 import com.github.sirblobman.colored.signs.utility.ModernUtility;
 import com.github.sirblobman.colored.signs.utility.VersionUtility;
 
-public final class ColoredSignsPlugin extends JavaPlugin {
+public final class ColoredSignsPlugin extends JavaPlugin implements IColoredSigns {
     private final ConfigurationManager configurationManager;
+    private final ColoredSignsConfiguration configuration;
+    private final LanguageConfiguration languageConfiguration;
 
     public ColoredSignsPlugin() {
         this.configurationManager = new ConfigurationManager(this);
+        this.configuration = new ColoredSignsConfiguration();
+        this.languageConfiguration = new LanguageConfiguration(this);
+    }
+
+    @Override
+    public JavaPlugin asPlugin() {
+        return this;
     }
 
     @Override
     public void onLoad() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.saveDefault("config.yml");
-        configurationManager.saveDefault("language.yml");
+        saveDefaultConfig();
     }
 
     @Override
     public void onEnable() {
+        reloadConfig();
         registerCommand();
         registerListeners();
         broadcastEnableMessage();
@@ -45,37 +55,53 @@ public final class ColoredSignsPlugin extends JavaPlugin {
     public void saveDefaultConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
+        configurationManager.saveDefault("language.yml");
     }
 
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
+        configurationManager.reload("language.yml");
+
+        YamlConfiguration configFile = configurationManager.get("config.yml");
+        ColoredSignsConfiguration configuration = getConfiguration();
+        configuration.load(configFile);
+
+        YamlConfiguration languageFile = configurationManager.get("language.yml");
+        LanguageConfiguration languageConfiguration = getLanguageConfiguration();
+        languageConfiguration.load(languageFile);
     }
 
     @Override
-    public YamlConfiguration getConfig() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        return configurationManager.get("config.yml");
+    public ColoredSignsConfiguration getConfiguration() {
+        return this.configuration;
     }
 
     @Override
-    public void saveConfig() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.save("config.yml");
+    public LanguageConfiguration getLanguageConfiguration() {
+        return this.languageConfiguration;
     }
 
-    public ConfigurationManager getConfigurationManager() {
-        return this.configurationManager;
-    }
-
-    public String defaultFullColor(String message) {
+    @Override
+    public String fullColor(String original) {
+        ColoredSignsConfiguration configuration = getConfiguration();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion > 16) {
-            message = ModernUtility.replaceHexColors('&', message);
+
+        char colorChar = configuration.getColorCharacter();
+        boolean hex = (minorVersion >= 16 && configuration.isEnableHexColorCodes());
+
+        String replaced = LegacyUtility.replaceAll(colorChar, original);
+
+        if (hex) {
+            replaced = ModernUtility.replaceHexColors(colorChar, original);
         }
 
-        return LegacyUtility.replaceAll('&', message);
+        return replaced;
+    }
+
+    private ConfigurationManager getConfigurationManager() {
+        return this.configurationManager;
     }
 
     private void registerCommand() {
@@ -88,7 +114,7 @@ public final class ColoredSignsPlugin extends JavaPlugin {
     private void registerListeners() {
         new ListenerLegacyColors(this).register();
 
-        // Hex Color support was added in Minecraft 1.16
+        // Hex Color support was added in Spigot 1.16.5
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion >= 16) {
             new ListenerHexColors(this).register();
@@ -101,36 +127,20 @@ public final class ColoredSignsPlugin extends JavaPlugin {
     }
 
     private void broadcastEnableMessage() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        if (!configuration.getBoolean("broadcast-enabled", true)) {
-            return;
+        ColoredSignsConfiguration configuration = getConfiguration();
+        if (configuration.isBroadcastOnEnable()) {
+            LanguageConfiguration languageConfiguration = getLanguageConfiguration();
+            String message = languageConfiguration.getBroadcastEnabled();
+            Bukkit.broadcastMessage(message);
         }
-
-        YamlConfiguration language = configurationManager.get("language.yml");
-        String message = language.getString("broadcast-enabled");
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        String messageColored = defaultFullColor(message);
-        Bukkit.broadcastMessage(messageColored);
     }
 
     private void broadcastDisableMessage() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        if (!configuration.getBoolean("broadcast-disabled", true)) {
-            return;
+        ColoredSignsConfiguration configuration = getConfiguration();
+        if (configuration.isBroadcastOnDisable()) {
+            LanguageConfiguration languageConfiguration = getLanguageConfiguration();
+            String message = languageConfiguration.getBroadcastDisabled();
+            Bukkit.broadcastMessage(message);
         }
-
-        YamlConfiguration language = configurationManager.get("language.yml");
-        String message = language.getString("broadcast-disabled");
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        String messageColored = defaultFullColor(message);
-        Bukkit.broadcastMessage(messageColored);
     }
 }

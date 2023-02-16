@@ -17,7 +17,7 @@ public final class ModernUtility {
         Pattern pattern = getReplaceAllRgbPattern(colorChar);
         Matcher matcher = pattern.matcher(string);
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while (matcher.find()) {
             if (matcher.group(1) != null) {
                 matcher.appendReplacement(buffer, colorChar + "#$2");

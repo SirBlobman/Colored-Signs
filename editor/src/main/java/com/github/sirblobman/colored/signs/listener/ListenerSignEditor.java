@@ -1,7 +1,5 @@
 package com.github.sirblobman.colored.signs.listener;
 
-import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,33 +8,38 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-public final class ListenerSignEditor implements Listener {
-    private final JavaPlugin plugin;
+import com.github.sirblobman.colored.signs.IColoredSigns;
+import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
+
+public final class ListenerSignEditor extends ColoredSignsListener {
     private final StringArrayType stringArrayType;
 
-    public ListenerSignEditor(JavaPlugin plugin) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
-        this.stringArrayType = new StringArrayType(plugin);
+    public ListenerSignEditor(IColoredSigns plugin) {
+        super(plugin);
+
+        JavaPlugin javaPlugin = plugin.asPlugin();
+        this.stringArrayType = new StringArrayType(javaPlugin);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSignChange(SignChangeEvent e) {
         Block block = e.getBlock();
         String[] rawLines = e.getLines();
+
+        IColoredSigns plugin = getPlugin();
+        JavaPlugin javaPlugin = plugin.asPlugin();
+
         Runnable task = () -> {
             BlockState blockState = block.getState();
             if (!(blockState instanceof Sign sign)) {
@@ -44,13 +47,13 @@ public final class ListenerSignEditor implements Listener {
             }
 
             PersistentDataContainer dataContainer = sign.getPersistentDataContainer();
-            NamespacedKey rawLinesKey = new NamespacedKey(this.plugin, "raw-lines");
+            NamespacedKey rawLinesKey = new NamespacedKey(javaPlugin, "raw-lines");
             dataContainer.set(rawLinesKey, getStringArrayType(), rawLines);
             sign.update(true, true);
         };
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTask(this.plugin, task);
+        scheduler.runTask(javaPlugin, task);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -92,7 +95,10 @@ public final class ListenerSignEditor implements Listener {
             return;
         }
 
-        NamespacedKey rawLinesKey = new NamespacedKey(this.plugin, "raw-lines");
+        IColoredSigns plugin = getPlugin();
+        JavaPlugin javaPlugin = plugin.asPlugin();
+        NamespacedKey rawLinesKey = new NamespacedKey(javaPlugin, "raw-lines");
+
         PersistentDataContainer dataContainer = sign.getPersistentDataContainer();
         String[] rawLines = dataContainer.get(rawLinesKey, getStringArrayType());
         if (rawLines != null) {
@@ -101,6 +107,7 @@ public final class ListenerSignEditor implements Listener {
                 String rawLine = rawLines[i];
                 printDebug("Raw Line " + i + ": " + rawLine);
 
+                @SuppressWarnings("UnnecessaryUnicodeEscape")
                 String fixed = rawLine.replace('\u00A7', colorChar);
                 String fixedHex = fixHexColors(fixed);
                 sign.setLine(i, fixedHex);
@@ -110,7 +117,6 @@ public final class ListenerSignEditor implements Listener {
             sign.update(true, true);
         }
 
-        JavaPlugin plugin = getPlugin();
         Runnable task = () -> {
             BlockState newState = block.getState();
             if (!(newState instanceof Sign newSign)) {
@@ -123,63 +129,30 @@ public final class ListenerSignEditor implements Listener {
         };
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLater(plugin, task, 2L);
-    }
-
-    public void register() {
-        JavaPlugin plugin = getPlugin();
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(this, plugin);
-    }
-
-    private JavaPlugin getPlugin() {
-        return this.plugin;
+        scheduler.runTaskLater(javaPlugin, task, 2L);
     }
 
     private StringArrayType getStringArrayType() {
         return this.stringArrayType;
     }
 
-    private FileConfiguration getConfiguration() {
-        JavaPlugin plugin = getPlugin();
-        return plugin.getConfig();
-    }
-
     private boolean isEnabled() {
-        FileConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("enable-sign-editor", true);
+        ColoredSignsConfiguration configuration = getConfiguration();
+        return configuration.isEnableSignEditor();
     }
 
     private boolean hasPermission(Player player) {
-        FileConfiguration configuration = getConfiguration();
-        boolean usePermissions = configuration.getBoolean("permission-mode");
-        return (!usePermissions || player.hasPermission("signs.edit"));
-    }
-
-    private boolean isDebugModeDisabled() {
-        FileConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("debug-mode", false);
-    }
-
-    private void printDebug(String message) {
-        if (isDebugModeDisabled()) {
-            return;
+        ColoredSignsConfiguration configuration = getConfiguration();
+        if (configuration.isPermissionMode()) {
+            return player.hasPermission("signs.edit");
         }
 
-        JavaPlugin plugin = getPlugin();
-        Logger logger = plugin.getLogger();
-        logger.info("[Debug] [Sign Editor] " + message);
+        return true;
     }
 
     private char getColorCharacter() {
-        FileConfiguration configuration = this.plugin.getConfig();
-        String characterString = configuration.getString("color-character");
-        if (characterString == null) {
-            return '&';
-        }
-
-        char[] charArray = characterString.toCharArray();
-        return charArray[0];
+        ColoredSignsConfiguration configuration = getConfiguration();
+        return configuration.getColorCharacter();
     }
 
     private Pattern getRgbPatternFinder() {

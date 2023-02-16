@@ -29,6 +29,7 @@ repositories {
 
 dependencies {
     // Module Dependencies
+    implementation(project(path = ":abstract", configuration = "archives"))
     implementation(project(path = ":legacy", configuration = "archives"))
     implementation(project(path = ":modern", configuration = "archives"))
     implementation(project(path = ":editor", configuration = "archives"))
@@ -38,6 +39,10 @@ dependencies {
 }
 
 tasks {
+    processResources {
+
+    }
+
     named<Jar>("jar") {
         enabled = false
     }
