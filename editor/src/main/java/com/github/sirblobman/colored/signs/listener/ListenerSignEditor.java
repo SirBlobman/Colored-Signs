@@ -34,7 +34,7 @@ public final class ListenerSignEditor implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onSignChance(SignChangeEvent e) {
+    public void onSignChange(SignChangeEvent e) {
         Block block = e.getBlock();
         String[] rawLines = e.getLines();
         Runnable task = () -> {
