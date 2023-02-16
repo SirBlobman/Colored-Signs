@@ -7,6 +7,7 @@ pipeline {
 
     environment {
         DISCORD_URL = credentials('PUBLIC_DISCORD_WEBHOOK')
+        MAVEN_DEPLOY = credentials('MAVEN_DEPLOY')
     }
 
     triggers {
@@ -19,10 +20,10 @@ pipeline {
     }
 
     stages {
-        stage("Maven: Package") {
+        stage("Gradle: Build") {
             steps {
-                withMaven(options: [artifactsPublisher(disabled: true)]) {
-                    sh("mvn clean package -U")
+                withGradle {
+                    sh("./gradlew clean build --refresh-dependencies")
                 }
             }
         }
@@ -30,7 +31,7 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: 'plugin/target/ColoredSigns-*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'plugin/build/libs/ColoredSigns-*.jar', fingerprint: true
         }
 
         always {
