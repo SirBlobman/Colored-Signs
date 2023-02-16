@@ -14,14 +14,15 @@ pipeline {
     }
 
     tools {
+        maven "Default"
         jdk "JDK 17"
     }
 
     stages {
         stage("Maven: Package") {
             steps {
-                withMaven {
-                    sh("mvn clean package")
+                withMaven(options: [artifactsPublisher(disabled: true)]) {
+                    sh("mvn clean package -U")
                 }
             }
         }
