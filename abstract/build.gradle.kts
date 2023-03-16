@@ -4,8 +4,7 @@ plugins {
 
 repositories {
     maven {
-        name = "sirblobman-private"
-        url = uri("https://nexus.sirblobman.xyz/repository/private/")
+        url = uri("https://nexus.sirblobman.xyz/private/")
 
         credentials {
             var currentUsername = System.getenv("MAVEN_DEPLOY_USR")
