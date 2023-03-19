@@ -39,7 +39,23 @@ dependencies {
 
 tasks {
     processResources {
+        val pluginName = (findProperty("bukkit.plugin.name") ?: "") as String
+        val pluginPrefix = (findProperty("bukkit.plugin.prefix") ?: "") as String
+        val pluginDescription = (findProperty("bukkit.plugin.description") ?: "") as String
+        val pluginWebsite = (findProperty("bukkit.plugin.website") ?: "") as String
+        val pluginMainClass = (findProperty("bukkit.plugin.main") ?: "") as String
+        val pluginVersion = rootProject.ext.get("calculatedVersion")
 
+        filesMatching("plugin.yml") {
+            expand(mapOf(
+                "pluginName" to pluginName,
+                "pluginPrefix" to pluginPrefix,
+                "pluginDescription" to pluginDescription,
+                "pluginWebsite" to pluginWebsite,
+                "pluginMainClass" to pluginMainClass,
+                "pluginVersion" to pluginVersion
+            ))
+        }
     }
 
     named<Jar>("jar") {
