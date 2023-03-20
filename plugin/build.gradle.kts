@@ -5,6 +5,11 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.0"
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 repositories {
     maven {
         url = uri("https://nexus.sirblobman.xyz/private/")
@@ -60,11 +65,6 @@ tasks {
 
     named<Jar>("jar") {
         enabled = false
-    }
-
-    java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     named<ShadowJar>("shadowJar") {
