@@ -4,20 +4,22 @@ import java.awt.Color;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public final class ModernUtility {
-    public static Block getTargetBlock(Player player) {
+    public static @NotNull Block getTargetBlock(@NotNull Player player) {
         return player.getTargetBlock(null, 20);
     }
 
-    public static String replaceHexColors(char colorChar, String string) {
+    public static @NotNull String replaceHexColors(char colorChar, @NotNull String string) {
         Pattern pattern = getReplaceAllRgbPattern(colorChar);
         Matcher matcher = pattern.matcher(string);
 
-        StringBuilder buffer = new StringBuilder();
+        StringBuffer buffer = new StringBuffer();
         while (matcher.find()) {
             if (matcher.group(1) != null) {
                 matcher.appendReplacement(buffer, colorChar + "#$2");
@@ -37,15 +39,14 @@ public final class ModernUtility {
         return buffer.toString();
     }
 
-    private static Pattern getReplaceAllRgbPattern(char colorChar) {
+    private static @NotNull Pattern getReplaceAllRgbPattern(char colorChar) {
         String colorCharString = Character.toString(colorChar);
         String colorCharPattern = Pattern.quote(colorCharString);
-
         String patternString = ("(" + colorCharPattern + ")?" + colorCharPattern + "#([0-9a-fA-F]{6})");
         return Pattern.compile(patternString);
     }
 
-    private static String parseHexColor(String string) throws NumberFormatException {
+    private static @NotNull String parseHexColor(@NotNull String string) throws NumberFormatException {
         if (string.startsWith("#")) {
             string = string.substring(1);
         }

@@ -1,13 +1,13 @@
 package com.github.sirblobman.colored.signs.configuration;
 
-import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.github.sirblobman.colored.signs.IColoredSigns;
+import com.github.sirblobman.colored.signs.ColoredSigns;
 
 public final class LanguageConfiguration {
-    private final IColoredSigns plugin;
+    private final ColoredSigns plugin;
 
     private String errorPlayerOnly;
     private String errorNotSign;
@@ -18,9 +18,8 @@ public final class LanguageConfiguration {
 
     private String successfulEdit;
 
-    public LanguageConfiguration(IColoredSigns plugin) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
-
+    public LanguageConfiguration(@NotNull ColoredSigns plugin) {
+        this.plugin = plugin;
         this.errorPlayerOnly = "";
         this.errorNotSign = "";
         this.errorInvalidLine = "";
@@ -29,16 +28,16 @@ public final class LanguageConfiguration {
         this.successfulEdit = "";
     }
 
-    private IColoredSigns getPlugin() {
+    private @NotNull ColoredSigns getPlugin() {
         return this.plugin;
     }
 
-    private String color(String original) {
-        IColoredSigns plugin = getPlugin();
+    private @NotNull String color(@NotNull String original) {
+        ColoredSigns plugin = getPlugin();
         return plugin.fullColor(original);
     }
 
-    public void load(ConfigurationSection config) {
+    public void load(@NotNull ConfigurationSection config) {
         String errorPlayerOnly = config.getString("error.player-only", "");
         String errorNotSign = config.getString("error.not-sign", "");
         String errorInvalidLine = config.getString("error.invalid-line", "");
@@ -54,51 +53,51 @@ public final class LanguageConfiguration {
         setSuccessfulEdit(color(successfulEdit));
     }
 
-    public String getErrorPlayerOnly() {
+    public @NotNull String getErrorPlayerOnly() {
         return this.errorPlayerOnly;
     }
 
-    public void setErrorPlayerOnly(String errorPlayerOnly) {
+    public void setErrorPlayerOnly(@NotNull String errorPlayerOnly) {
         this.errorPlayerOnly = errorPlayerOnly;
     }
 
-    public String getErrorNotSign() {
+    public @NotNull String getErrorNotSign() {
         return this.errorNotSign;
     }
 
-    public void setErrorNotSign(String errorNotSign) {
+    public void setErrorNotSign(@NotNull String errorNotSign) {
         this.errorNotSign = errorNotSign;
     }
 
-    public String getErrorInvalidLine() {
+    public @NotNull String getErrorInvalidLine() {
         return this.errorInvalidLine;
     }
 
-    public void setErrorInvalidLine(String errorInvalidLine) {
+    public void setErrorInvalidLine(@NotNull String errorInvalidLine) {
         this.errorInvalidLine = errorInvalidLine;
     }
 
-    public String getBroadcastEnabled() {
+    public @NotNull String getBroadcastEnabled() {
         return this.broadcastEnabled;
     }
 
-    public void setBroadcastEnabled(String broadcastEnabled) {
+    public void setBroadcastEnabled(@NotNull String broadcastEnabled) {
         this.broadcastEnabled = broadcastEnabled;
     }
 
-    public String getBroadcastDisabled() {
+    public @NotNull String getBroadcastDisabled() {
         return this.broadcastDisabled;
     }
 
-    public void setBroadcastDisabled(String broadcastDisabled) {
+    public void setBroadcastDisabled(@NotNull String broadcastDisabled) {
         this.broadcastDisabled = broadcastDisabled;
     }
 
-    public String getSuccessfulEdit() {
+    public @NotNull String getSuccessfulEdit() {
         return this.successfulEdit;
     }
 
-    public void setSuccessfulEdit(String successfulEdit) {
+    public void setSuccessfulEdit(@NotNull String successfulEdit) {
         this.successfulEdit = successfulEdit;
     }
 }

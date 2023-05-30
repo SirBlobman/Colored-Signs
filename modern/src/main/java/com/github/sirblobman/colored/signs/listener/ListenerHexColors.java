@@ -1,17 +1,19 @@
 package com.github.sirblobman.colored.signs.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.SignChangeEvent;
 
-import com.github.sirblobman.colored.signs.IColoredSigns;
+import com.github.sirblobman.colored.signs.ColoredSigns;
 import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
 import com.github.sirblobman.colored.signs.utility.ModernUtility;
 
 public final class ListenerHexColors extends ColoredSignsListener {
-    public ListenerHexColors(IColoredSigns plugin) {
-        super(plugin);
+    public ListenerHexColors(@NotNull ColoredSigns coloredSigns) {
+        super(coloredSigns);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -37,7 +39,7 @@ public final class ListenerHexColors extends ColoredSignsListener {
         return configuration.isEnableHexColorCodes();
     }
 
-    private boolean hasPermission(Player player) {
+    private boolean hasPermission(@NotNull Player player) {
         ColoredSignsConfiguration configuration = getConfiguration();
         if (configuration.isPermissionMode()) {
             return player.hasPermission("signs.color.hex");

@@ -1,9 +1,12 @@
 package com.github.sirblobman.colored.signs;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.colored.signs.command.CommandEditSign;
@@ -17,7 +20,7 @@ import com.github.sirblobman.colored.signs.utility.LegacyUtility;
 import com.github.sirblobman.colored.signs.utility.ModernUtility;
 import com.github.sirblobman.colored.signs.utility.VersionUtility;
 
-public final class ColoredSignsPlugin extends JavaPlugin implements IColoredSigns {
+public final class ColoredSignsPlugin extends JavaPlugin implements ColoredSigns {
     private final ConfigurationManager configurationManager;
     private final ColoredSignsConfiguration configuration;
     private final LanguageConfiguration languageConfiguration;
@@ -29,7 +32,7 @@ public final class ColoredSignsPlugin extends JavaPlugin implements IColoredSign
     }
 
     @Override
-    public JavaPlugin asPlugin() {
+    public @NotNull Plugin getPlugin() {
         return this;
     }
 
@@ -74,17 +77,17 @@ public final class ColoredSignsPlugin extends JavaPlugin implements IColoredSign
     }
 
     @Override
-    public ColoredSignsConfiguration getConfiguration() {
+    public @NotNull ColoredSignsConfiguration getConfiguration() {
         return this.configuration;
     }
 
     @Override
-    public LanguageConfiguration getLanguageConfiguration() {
+    public @NotNull LanguageConfiguration getLanguageConfiguration() {
         return this.languageConfiguration;
     }
 
     @Override
-    public String fullColor(String original) {
+    public @NotNull String fullColor(@NotNull String original) {
         ColoredSignsConfiguration configuration = getConfiguration();
         int minorVersion = VersionUtility.getMinorVersion();
 
@@ -100,7 +103,7 @@ public final class ColoredSignsPlugin extends JavaPlugin implements IColoredSign
         return replaced;
     }
 
-    private ConfigurationManager getConfigurationManager() {
+    private @NotNull ConfigurationManager getConfigurationManager() {
         return this.configurationManager;
     }
 

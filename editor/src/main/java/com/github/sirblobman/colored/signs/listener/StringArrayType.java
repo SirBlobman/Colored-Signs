@@ -1,37 +1,33 @@
 package com.github.sirblobman.colored.signs.listener;
 
-import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.plugin.Plugin;
 
 public final class StringArrayType implements PersistentDataType<PersistentDataContainer, String[]> {
-    private final JavaPlugin plugin;
+    private final Plugin plugin;
 
-    public StringArrayType(JavaPlugin plugin) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
+    public StringArrayType(@NotNull Plugin plugin) {
+        this.plugin = plugin;
     }
 
-    @NotNull
     @Override
-    public Class<PersistentDataContainer> getPrimitiveType() {
+    public @NotNull Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
-    @NotNull
     @Override
-    public Class<String[]> getComplexType() {
+    public @NotNull Class<String[]> getComplexType() {
         return String[].class;
     }
 
-    @NotNull
     @Override
-    public PersistentDataContainer toPrimitive(String[] complex, PersistentDataAdapterContext context) {
+    public @NotNull PersistentDataContainer toPrimitive(String @NotNull [] complex,
+                                                        @NotNull PersistentDataAdapterContext context) {
         NamespacedKey lengthKey = getKey("length");
         PersistentDataContainer primitive = context.newPersistentDataContainer();
         primitive.set(lengthKey, INTEGER, complex.length);
@@ -51,7 +47,7 @@ public final class StringArrayType implements PersistentDataType<PersistentDataC
     }
 
     @Override
-    public String @NotNull [] fromPrimitive(PersistentDataContainer primitive,
+    public String @NotNull [] fromPrimitive(@NotNull PersistentDataContainer primitive,
                                             @NotNull PersistentDataAdapterContext context) {
         NamespacedKey lengthKey = getKey("length");
         int length = primitive.getOrDefault(lengthKey, INTEGER, 0);
@@ -69,12 +65,12 @@ public final class StringArrayType implements PersistentDataType<PersistentDataC
         return complex;
     }
 
-    private JavaPlugin getPlugin() {
+    private @NotNull Plugin getPlugin() {
         return this.plugin;
     }
 
-    private NamespacedKey getKey(String name) {
-        JavaPlugin plugin = getPlugin();
+    private @NotNull NamespacedKey getKey(@NotNull String name) {
+        Plugin plugin = getPlugin();
         return new NamespacedKey(plugin, name);
     }
 }

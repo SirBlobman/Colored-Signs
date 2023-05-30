@@ -1,5 +1,7 @@
 package com.github.sirblobman.colored.signs.configuration;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 public final class ColoredSignsConfiguration {
@@ -21,7 +23,7 @@ public final class ColoredSignsConfiguration {
         this.enableSignEditor = true;
     }
 
-    public void load(ConfigurationSection config) {
+    public void load(@NotNull ConfigurationSection config) {
         setDebugMode(config.getBoolean("debug-mode", false));
 
         String colorCharString = config.getString("color-character", "&");

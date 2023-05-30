@@ -1,32 +1,23 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-plugins {
-    id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.0"
+fun fetchProperty(propertyName: String, defaultValue: String): String {
+    val found = findProperty(propertyName)
+    if (found != null) {
+        return found.toString()
+    }
+
+    return defaultValue
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
-    maven {
-        url = uri("https://nexus.sirblobman.xyz/private/")
-
+    maven("https://nexus.sirblobman.xyz/private/") {
         credentials {
-            var currentUsername = System.getenv("MAVEN_DEPLOY_USR")
-            if (currentUsername == null) {
-                currentUsername = property("mavenUsernameSirBlobman") as String
-            }
-
-            var currentPassword = System.getenv("MAVEN_DEPLOY_PSW")
-            if (currentPassword == null) {
-                currentPassword = property("mavenPasswordSirBlobman") as String
-            }
-
-            username = currentUsername
-            password = currentPassword
+            username = rootProject.ext.get("mavenUsername") as String
+            password = rootProject.ext.get("mavenPassword") as String
         }
     }
 }
@@ -43,37 +34,39 @@ dependencies {
 }
 
 tasks {
-    processResources {
-        val pluginName = (findProperty("bukkit.plugin.name") ?: "") as String
-        val pluginPrefix = (findProperty("bukkit.plugin.prefix") ?: "") as String
-        val pluginDescription = (findProperty("bukkit.plugin.description") ?: "") as String
-        val pluginWebsite = (findProperty("bukkit.plugin.website") ?: "") as String
-        val pluginMainClass = (findProperty("bukkit.plugin.main") ?: "") as String
-        val pluginVersion = rootProject.ext.get("calculatedVersion")
-
-        filesMatching("plugin.yml") {
-            expand(mapOf(
-                "pluginName" to pluginName,
-                "pluginPrefix" to pluginPrefix,
-                "pluginDescription" to pluginDescription,
-                "pluginWebsite" to pluginWebsite,
-                "pluginMainClass" to pluginMainClass,
-                "pluginVersion" to pluginVersion
-            ))
-        }
-    }
-
     named<Jar>("jar") {
         enabled = false
     }
 
     named<ShadowJar>("shadowJar") {
-        val calculatedVersion = rootProject.ext.get("calculatedVersion") as String
-        archiveFileName.set("ColoredSigns-${calculatedVersion}.jar")
+        archiveBaseName.set("ColoredSigns")
         archiveClassifier.set(null as String?)
+        version = rootProject.ext.get("calculatedVersion") as String
     }
 
-    build {
-        dependsOn(shadowJar)
+    named("build") {
+        dependsOn("shadowJar")
+    }
+
+    processResources {
+        val pluginName = fetchProperty("bukkit.plugin.name", "")
+        val pluginPrefix = fetchProperty("bukkit.plugin.prefix", "")
+        val pluginDescription = fetchProperty("bukkit.plugin.description", "")
+        val pluginWebsite = fetchProperty("bukkit.plugin.website", "")
+        val pluginMainClass = fetchProperty("bukkit.plugin.main", "")
+        val pluginVersion = rootProject.ext.get("calculatedVersion")
+
+        filesMatching("plugin.yml") {
+            expand(
+                mapOf(
+                    "pluginName" to pluginName,
+                    "pluginPrefix" to pluginPrefix,
+                    "pluginDescription" to pluginDescription,
+                    "pluginWebsite" to pluginWebsite,
+                    "pluginMainClass" to pluginMainClass,
+                    "pluginVersion" to pluginVersion
+                )
+            )
+        }
     }
 }

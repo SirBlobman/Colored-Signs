@@ -10,9 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,26 +27,26 @@ public final class ConfigurationManager {
     private final JavaPlugin plugin;
     private final Map<String, YamlConfiguration> configurationMap;
 
-    public ConfigurationManager(JavaPlugin plugin) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
-        this.baseFolder = this.plugin.getDataFolder();
+    public ConfigurationManager(@NotNull JavaPlugin plugin) {
+        this.plugin = plugin;
+        this.baseFolder = plugin.getDataFolder();
         this.configurationMap = new HashMap<>();
     }
 
-    public JavaPlugin getPlugin() {
+    public @NotNull JavaPlugin getPlugin() {
         return this.plugin;
     }
 
-    public File getBaseFolder() {
+    public @NotNull File getBaseFolder() {
         return this.baseFolder;
     }
 
-    public void saveDefault(String fileName) {
+    public void saveDefault(@NotNull String fileName) {
         File file = getFile(fileName);
         saveDefault(fileName, file);
     }
 
-    public YamlConfiguration getInternal(String fileName) {
+    public @Nullable YamlConfiguration getInternal(@NotNull String fileName) {
         JavaPlugin resourceHolder = getPlugin();
         InputStream inputStream = resourceHolder.getResource(fileName);
         if (inputStream == null) {
@@ -66,7 +68,7 @@ public final class ConfigurationManager {
      * @return A configuration from memory. If the configuration is not in memory it will be loaded from storage first.
      * If a file can't be loaded, an empty configuration will be returned.
      */
-    public YamlConfiguration get(String fileName) {
+    public @NotNull YamlConfiguration get(@NotNull String fileName) {
         YamlConfiguration configuration = this.configurationMap.getOrDefault(fileName, null);
         if (configuration != null) {
             return configuration;
@@ -81,13 +83,12 @@ public final class ConfigurationManager {
      *
      * @param fileName The relative name of the configuration.
      */
-    public void reload(String fileName) {
+    public void reload(@NotNull String fileName) {
         File file = getFile(fileName);
         JavaPlugin resourceHolder = getPlugin();
         if (!file.exists() || !file.isFile()) {
             Logger logger = resourceHolder.getLogger();
-            logger.warning("'" + fileName
-                    + "' could not be reloaded because it is not a file or does not exist!");
+            logger.warning("Failed to reload '" + fileName + "' because it is not a file or does not exist.");
             return;
         }
 
@@ -103,19 +104,18 @@ public final class ConfigurationManager {
             this.configurationMap.put(fileName, configuration);
         } catch (IOException | InvalidConfigurationException ex) {
             Logger logger = resourceHolder.getLogger();
-            logger.log(Level.WARNING, "An I/O exception occurred while loading a configuration file:", ex);
+            logger.log(Level.WARNING, "Failed to reload '" + fileName + "':", ex);
         }
     }
 
-    private File getFile(String fileName) {
+    private @NotNull File getFile(@NotNull String fileName) {
         Validate.notEmpty(fileName, "fileName cannot be null or empty!");
         File baseFolder = getBaseFolder();
         return new File(baseFolder, fileName);
     }
 
-    private void saveDefault(String fileName, File realFile) {
+    private void saveDefault(@NotNull String fileName, @NotNull File realFile) {
         Validate.notEmpty(fileName, "jarName cannot be null or empty!");
-        Validate.notNull(realFile, "realFile cannot be null!");
         if (realFile.exists()) {
             return;
         }

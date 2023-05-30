@@ -16,11 +16,11 @@ color-character: '&'
 # Default: false
 permission-mode: false
 
-# Should a message be broadcasted to the server when the plugin is enabled?
+# Should there be a broadcast to the server when the plugin is enabled?
 # Default: true
 broadcast-enabled: true
 
-# Should a message be broadcasted to the server when the plugin is disabled?
+# Should there be a broadcast to the server when the plugin is disabled?
 # Default: true
 broadcast-disabled: true
 

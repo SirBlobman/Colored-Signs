@@ -1,5 +1,4 @@
 rootProject.name = "Colored Signs"
-
 include("abstract")
 include("legacy")
 include("modern")

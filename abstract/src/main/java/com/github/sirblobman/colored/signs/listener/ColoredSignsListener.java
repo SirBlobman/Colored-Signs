@@ -1,46 +1,52 @@
 package com.github.sirblobman.colored.signs.listener;
 
 import java.util.Locale;
-import java.util.Objects;
 import java.util.logging.Logger;
+
+import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.colored.signs.IColoredSigns;
+import com.github.sirblobman.colored.signs.ColoredSigns;
 import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
 
 public abstract class ColoredSignsListener implements Listener {
-    private final IColoredSigns plugin;
+    private final ColoredSigns coloredSigns;
 
-    public ColoredSignsListener(IColoredSigns plugin) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
+    public ColoredSignsListener(@NotNull ColoredSigns coloredSigns) {
+        this.coloredSigns = coloredSigns;
     }
 
     public final void register() {
-        IColoredSigns coloredSigns = getPlugin();
-        JavaPlugin plugin = coloredSigns.asPlugin();
+        ColoredSigns coloredSigns = getColoredSigns();
+        Plugin plugin = coloredSigns.getPlugin();
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(this, plugin);
     }
 
-    protected final IColoredSigns getPlugin() {
-        return this.plugin;
+    protected final @NotNull ColoredSigns getColoredSigns() {
+        return this.coloredSigns;
+    }
+
+    protected final @NotNull Plugin getPlugin() {
+        ColoredSigns coloredSigns = getColoredSigns();
+        return coloredSigns.getPlugin();
     }
 
     protected final Logger getLogger() {
-        IColoredSigns plugin = getPlugin();
+        ColoredSigns plugin = getColoredSigns();
         return plugin.getLogger();
     }
 
     protected final ColoredSignsConfiguration getConfiguration() {
-        IColoredSigns plugin = getPlugin();
+        ColoredSigns plugin = getColoredSigns();
         return plugin.getConfiguration();
     }
 
-    protected final void printDebug(String message) {
+    protected final void printDebug(@NotNull String message) {
         ColoredSignsConfiguration configuration = getConfiguration();
         if (!configuration.isDebugMode()) {
             return;

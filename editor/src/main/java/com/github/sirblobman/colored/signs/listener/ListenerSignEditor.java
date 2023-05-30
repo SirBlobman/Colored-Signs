@@ -3,6 +3,8 @@ package com.github.sirblobman.colored.signs.listener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -16,29 +18,25 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.colored.signs.IColoredSigns;
+import com.github.sirblobman.colored.signs.ColoredSigns;
 import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
 
 public final class ListenerSignEditor extends ColoredSignsListener {
     private final StringArrayType stringArrayType;
 
-    public ListenerSignEditor(IColoredSigns plugin) {
-        super(plugin);
-
-        JavaPlugin javaPlugin = plugin.asPlugin();
-        this.stringArrayType = new StringArrayType(javaPlugin);
+    public ListenerSignEditor(@NotNull ColoredSigns coloredSigns) {
+        super(coloredSigns);
+        this.stringArrayType = new StringArrayType(coloredSigns.getPlugin());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSignChange(SignChangeEvent e) {
         Block block = e.getBlock();
         String[] rawLines = e.getLines();
-
-        IColoredSigns plugin = getPlugin();
-        JavaPlugin javaPlugin = plugin.asPlugin();
+        Plugin plugin = getPlugin();
 
         Runnable task = () -> {
             BlockState blockState = block.getState();
@@ -47,13 +45,13 @@ public final class ListenerSignEditor extends ColoredSignsListener {
             }
 
             PersistentDataContainer dataContainer = sign.getPersistentDataContainer();
-            NamespacedKey rawLinesKey = new NamespacedKey(javaPlugin, "raw-lines");
+            NamespacedKey rawLinesKey = new NamespacedKey(plugin, "raw-lines");
             dataContainer.set(rawLinesKey, getStringArrayType(), rawLines);
             sign.update(true, true);
         };
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTask(javaPlugin, task);
+        scheduler.runTask(plugin, task);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -95,9 +93,8 @@ public final class ListenerSignEditor extends ColoredSignsListener {
             return;
         }
 
-        IColoredSigns plugin = getPlugin();
-        JavaPlugin javaPlugin = plugin.asPlugin();
-        NamespacedKey rawLinesKey = new NamespacedKey(javaPlugin, "raw-lines");
+        Plugin plugin = getPlugin();
+        NamespacedKey rawLinesKey = new NamespacedKey(plugin, "raw-lines");
 
         PersistentDataContainer dataContainer = sign.getPersistentDataContainer();
         String[] rawLines = dataContainer.get(rawLinesKey, getStringArrayType());
@@ -129,10 +126,10 @@ public final class ListenerSignEditor extends ColoredSignsListener {
         };
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLater(javaPlugin, task, 2L);
+        scheduler.runTaskLater(plugin, task, 2L);
     }
 
-    private StringArrayType getStringArrayType() {
+    private @NotNull StringArrayType getStringArrayType() {
         return this.stringArrayType;
     }
 
@@ -141,7 +138,7 @@ public final class ListenerSignEditor extends ColoredSignsListener {
         return configuration.isEnableSignEditor();
     }
 
-    private boolean hasPermission(Player player) {
+    private boolean hasPermission(@NotNull Player player) {
         ColoredSignsConfiguration configuration = getConfiguration();
         if (configuration.isPermissionMode()) {
             return player.hasPermission("signs.edit");
@@ -155,7 +152,7 @@ public final class ListenerSignEditor extends ColoredSignsListener {
         return configuration.getColorCharacter();
     }
 
-    private Pattern getRgbPatternFinder() {
+    private @NotNull Pattern getRgbPatternFinder() {
         char colorChar = getColorCharacter();
         String colorCharString = Character.toString(colorChar);
         String colorCharPattern = Pattern.quote(colorCharString);
@@ -164,7 +161,7 @@ public final class ListenerSignEditor extends ColoredSignsListener {
         return Pattern.compile(patternString);
     }
 
-    private String fixHexColors(String text) {
+    private @NotNull String fixHexColors(@NotNull String text) {
         Pattern pattern = getRgbPatternFinder();
         Matcher matcher = pattern.matcher(text);
         StringBuilder builder = new StringBuilder();

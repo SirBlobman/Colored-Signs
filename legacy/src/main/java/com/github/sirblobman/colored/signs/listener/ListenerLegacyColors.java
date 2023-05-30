@@ -1,17 +1,19 @@
 package com.github.sirblobman.colored.signs.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.SignChangeEvent;
 
-import com.github.sirblobman.colored.signs.IColoredSigns;
+import com.github.sirblobman.colored.signs.ColoredSigns;
 import com.github.sirblobman.colored.signs.configuration.ColoredSignsConfiguration;
 import com.github.sirblobman.colored.signs.utility.LegacyUtility;
 
 public final class ListenerLegacyColors extends ColoredSignsListener {
-    public ListenerLegacyColors(IColoredSigns plugin) {
-        super(plugin);
+    public ListenerLegacyColors(@NotNull ColoredSigns coloredSigns) {
+        super(coloredSigns);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -32,7 +34,7 @@ public final class ListenerLegacyColors extends ColoredSignsListener {
         return configuration.getColorCharacter();
     }
 
-    private boolean hasAllPermissions(Player player) {
+    private boolean hasAllPermissions(@NotNull Player player) {
         ColoredSignsConfiguration configuration = getConfiguration();
         if (!configuration.isPermissionMode()) {
             return true;
@@ -45,7 +47,7 @@ public final class ListenerLegacyColors extends ColoredSignsListener {
         return (player.hasPermission("signs.color.all") && player.hasPermission("signs.format.all"));
     }
 
-    private String formatLine(Player player, String string) {
+    private @NotNull String formatLine(@NotNull Player player, @NotNull String string) {
         char colorChar = getColorCharacter();
         if (hasAllPermissions(player)) {
             return LegacyUtility.replaceAll(colorChar, string);
@@ -75,7 +77,7 @@ public final class ListenerLegacyColors extends ColoredSignsListener {
         return string;
     }
 
-    private String replaceColors(Player player, String string) {
+    private @NotNull String replaceColors(@NotNull Player player, @NotNull String string) {
         char colorChar = getColorCharacter();
         String[] validColorArray = {"a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
@@ -92,7 +94,7 @@ public final class ListenerLegacyColors extends ColoredSignsListener {
         return string;
     }
 
-    private String replaceFormats(Player player, String string) {
+    private @NotNull String replaceFormats(@NotNull Player player, @NotNull String string) {
         char colorChar = getColorCharacter();
         String[] validFormatArray = {"k", "l", "m", "n", "o", "r"};
 

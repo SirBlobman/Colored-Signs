@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -25,8 +26,8 @@ import com.github.sirblobman.colored.signs.utility.VersionUtility;
 public final class CommandEditSign implements TabExecutor {
     private final ColoredSignsPlugin plugin;
 
-    public CommandEditSign(ColoredSignsPlugin plugin) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
+    public CommandEditSign(@NotNull ColoredSignsPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -117,15 +118,13 @@ public final class CommandEditSign implements TabExecutor {
         return true;
     }
 
-    private ColoredSignsPlugin getPlugin() {
+    private @NotNull ColoredSignsPlugin getPlugin() {
         return this.plugin;
     }
 
-    private void sendMessage(CommandSender sender, String message) {
-        if (sender == null || message == null || message.isEmpty()) {
-            return;
+    private void sendMessage(@NotNull CommandSender sender, @NotNull String message) {
+        if (!message.isEmpty()) {
+            sender.sendMessage(message);
         }
-
-        sender.sendMessage(message);
     }
 }
