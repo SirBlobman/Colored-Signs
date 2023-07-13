@@ -124,7 +124,8 @@ public final class ColoredSignsPlugin extends JavaPlugin implements ColoredSigns
         }
 
         // Sign Editor support was added in Spigot 1.18.2
-        if (minorVersion >= 18) {
+        // Vanilla added sign editing in 1.20
+        if (minorVersion > 17 && minorVersion < 20) {
             new ListenerSignEditor(this).register();
         }
     }
