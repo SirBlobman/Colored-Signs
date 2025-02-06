@@ -10,7 +10,7 @@ fun fetchProperty(propertyName: String, defaultValue: String): String {
 }
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.6"
 }
 
 repositories {
