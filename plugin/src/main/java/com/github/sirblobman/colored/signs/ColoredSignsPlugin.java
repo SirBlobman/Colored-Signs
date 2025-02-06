@@ -16,6 +16,7 @@ import com.github.sirblobman.colored.signs.configuration.LanguageConfiguration;
 import com.github.sirblobman.colored.signs.listener.ListenerHexColors;
 import com.github.sirblobman.colored.signs.listener.ListenerLegacyColors;
 import com.github.sirblobman.colored.signs.listener.ListenerSignEditor;
+import com.github.sirblobman.colored.signs.listener.ListenerSignEditorV2;
 import com.github.sirblobman.colored.signs.utility.LegacyUtility;
 import com.github.sirblobman.colored.signs.utility.ModernUtility;
 import com.github.sirblobman.colored.signs.utility.VersionUtility;
@@ -125,8 +126,12 @@ public final class ColoredSignsPlugin extends JavaPlugin implements ColoredSigns
 
         // Sign Editor support was added in Spigot 1.18.2
         // Vanilla added sign editing in 1.20
-        if (minorVersion > 17 && minorVersion < 20) {
-            new ListenerSignEditor(this).register();
+        if (minorVersion > 17) {
+            if (minorVersion >= 20) {
+                new ListenerSignEditorV2(this).register();
+            } else {
+                new ListenerSignEditor(this).register();
+            }
         }
     }
 

@@ -28,6 +28,7 @@ dependencies {
     implementation(project(path = ":legacy", configuration = "archives"))
     implementation(project(path = ":modern", configuration = "archives"))
     implementation(project(path = ":editor", configuration = "archives"))
+    implementation(project(path = ":editor_v2", configuration = "archives"))
 
     // Bukkit API
     compileOnly("org.bukkit:bukkit:1.7.10-R0.1-SNAPSHOT")
