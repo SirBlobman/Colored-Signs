@@ -35,5 +35,4 @@ enable-hex-color-codes: true
 # Should sign editing be enabled?
 # This feature requires Spigot 1.18.2 or higher.
 # To edit a sign, sneak and right-click it.
-# Vanilla added sign editing in 1.20, so this option can be disabled.
 enable-sign-editor: false
