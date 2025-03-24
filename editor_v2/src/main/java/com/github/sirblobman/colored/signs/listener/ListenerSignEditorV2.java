@@ -9,25 +9,15 @@ import org.jetbrains.annotations.NotNull;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.HangingSign;
 import org.bukkit.block.Sign;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Rotatable;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.block.sign.SignSide;
-import org.bukkit.entity.Frog;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.event.player.PlayerSignOpenEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -66,51 +56,30 @@ public final class ListenerSignEditorV2 extends ColoredSignsListener {
         scheduler.runTask(plugin, task);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onInteract(PlayerInteractEvent e) {
-        printDebug("Detected PlayerInteractEvent.");
-
-        Action action = e.getAction();
-        if (action != Action.RIGHT_CLICK_BLOCK) {
-            printDebug("Action is not right click block, ignoring.");
+    @SuppressWarnings("UnstableApiUsage")
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onOpenSign(PlayerSignOpenEvent e) {
+        if (!isEnabled()) {
             return;
         }
 
-        EquipmentSlot hand = e.getHand();
-        if (hand != EquipmentSlot.HAND) {
-            printDebug("Hand is not main, ignoring.");
-            return;
-        }
-
-        Block block = e.getClickedBlock();
-        if (block == null) {
-            printDebug("Clicked block is null, ignoring.");
-            return;
-        }
-
-        BlockState blockState = block.getState();
-        if (!(blockState instanceof Sign sign)) {
-            printDebug("Clicked block is not sign, ignoring.");
+        PlayerSignOpenEvent.Cause cause = e.getCause();
+        if (cause != PlayerSignOpenEvent.Cause.INTERACT) {
             return;
         }
 
         Player player = e.getPlayer();
-        if (!player.isSneaking()) {
-            e.setUseInteractedBlock(Event.Result.DENY);
-            printDebug("Player is not sneaking, preventing vanilla edit and ignoring.");
+        if (!hasPermission(player)) {
+            printDebug("Player does not have permission, preventing edit.");
+            e.setCancelled(true);
             return;
         }
 
-        if (!isEnabled() || !hasPermission(player)) {
-            e.setUseInteractedBlock(Event.Result.DENY);
-            printDebug("Editor not enabled or player does not have permission, preventing vanilla edit and ignoring.");
-            return;
-        }
-
+        Side side = e.getSide();
+        Sign sign = e.getSign();
         Plugin plugin = getPlugin();
         PersistentDataContainer dataContainer = sign.getPersistentDataContainer();
 
-        Side side = getSignSide(e);
         printDebug("Detected click on sign side: " + side);
         SignSide signSide = sign.getSide(side);
         NamespacedKey rawLinesKey = new NamespacedKey(plugin, "raw-lines-" + side.name().toLowerCase(Locale.US));
@@ -127,55 +96,14 @@ public final class ListenerSignEditorV2 extends ColoredSignsListener {
                 signSide.setLine(i, fixedHex);
                 printDebug("Fixed Line: " + fixedHex);
             }
+
+            dataContainer.remove(rawLinesKey);
+            sign.update(true, true);
+            e.setCancelled(true);
+
+            player.closeInventory();
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> player.openSign(sign, side), 2L);
         }
-
-        sign.update(true, true);
-        e.setUseInteractedBlock(Event.Result.DENY);
-
-        Runnable task = () -> {
-            BlockState newState = block.getState();
-            if (!(newState instanceof Sign newSign)) {
-                printDebug("Updated block is not sign, ignoring.");
-                return;
-            }
-
-            printDebug("Opening new sign block.");
-            player.openSign(newSign, side);
-        };
-
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLater(plugin, task, 2L);
-    }
-
-    private @NotNull Side getSignSide(@NotNull PlayerInteractEvent e) {
-        Block block = e.getClickedBlock();
-        if (block == null) {
-            return Side.FRONT;
-        }
-
-        BlockData blockData = block.getBlockData();
-        if (blockData instanceof Directional directional) {
-            BlockFace clickedFace = e.getBlockFace();
-            printDebug("Clicked Face: " + clickedFace);
-            BlockFace facing = directional.getFacing();
-            if (facing == clickedFace) {
-                return Side.FRONT;
-            }
-
-            return Side.BACK;
-        }
-
-        if (blockData instanceof Rotatable rotatable) {
-            BlockFace clickedFace = e.getBlockFace();
-            BlockFace rotation = rotatable.getRotation();
-            if (clickedFace == rotation || rotation.name().contains(clickedFace.name())) {
-                return Side.FRONT;
-            }
-
-            return Side.BACK;
-        }
-
-        return Side.FRONT;
     }
 
     private @NotNull StringArrayTypeV2 getStringArrayType() {

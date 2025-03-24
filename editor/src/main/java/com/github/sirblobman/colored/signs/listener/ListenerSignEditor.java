@@ -58,6 +58,10 @@ public final class ListenerSignEditor extends ColoredSignsListener {
     public void onInteract(PlayerInteractEvent e) {
         printDebug("Detected PlayerInteractEvent.");
 
+        if (!isEnabled()) {
+            return;
+        }
+
         Action action = e.getAction();
         if (action != Action.RIGHT_CLICK_BLOCK) {
             printDebug("Action is not right click block, ignoring.");
@@ -88,8 +92,8 @@ public final class ListenerSignEditor extends ColoredSignsListener {
             return;
         }
 
-        if (!isEnabled() || !hasPermission(player)) {
-            printDebug("Editor not enabled or player does not have permission, ignoring.");
+        if (!hasPermission(player)) {
+            printDebug("Player does not have permission, ignoring.");
             return;
         }
 

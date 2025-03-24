@@ -55,7 +55,7 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("org.jetbrains:annotations:24.0.1")
+        compileOnly("org.jetbrains:annotations:26.0.2")
     }
 
     tasks {
