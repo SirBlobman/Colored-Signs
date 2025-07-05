@@ -5,7 +5,7 @@ A plugin that enables color and formatting codes for signs.
 ## Requirements
 
 - Java 8 minimum, Java 17 recommended.
-- [Spigot](https://www.spigotmc.org/) or [Paper](https://papermc.io/downloads/paper) 1.7.10-1.19.4
+- [Spigot](https://www.spigotmc.org/) or [Paper](https://papermc.io/downloads/paper) 1.7.10-1.21.7
 
 ## Downloads
 
